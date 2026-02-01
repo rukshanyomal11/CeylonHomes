@@ -1,0 +1,69 @@
+spring:
+  application:
+    name: ceylonhomes-backend
+  
+  # ===================================
+  # Database Configuration
+  # ===================================
+  # Update DB_USER and DB_PASS in .env file
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/ceylonhomes?createDatabaseIfNotExist=true}
+    username: ${DB_USER:root}
+    password: ${DB_PASS:your_mysql_password_here}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  
+  # ===================================
+  # JPA/Hibernate Configuration
+  # ===================================
+  jpa:
+    hibernate:
+      # Creates/updates database tables automatically
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+  
+  # ===================================
+  # File Upload Configuration
+  # ===================================
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB        # Max size per file
+      max-request-size: 50MB     # Max total request size
+
+# ===================================
+# JWT Configuration
+# ===================================
+# Change JWT_SECRET in production to a strong random key
+jwt:
+  secret: ${JWT_SECRET:MySecretKeyForJWTTokenGenerationCeylonHomesPropertyPlatform2026}
+  expiration: 86400000 # 24 hours in milliseconds (24 * 60 * 60 * 1000)
+
+# ===================================
+# File Upload Directory
+# ===================================
+upload:
+  dir: ${UPLOAD_DIR:uploads}
+
+# ===================================
+# Admin User Configuration
+# ===================================
+# Default admin account (created on first startup)
+# Change these in .env file for production
+admin:
+  email: ${ADMIN_EMAIL:admin@ceylonhomes.lk}
+  password: ${ADMIN_PASSWORD:Admin@123}
+  name: ${ADMIN_NAME:Admin User}
+  phone: ${ADMIN_PHONE:+94771234567}
+
+# ===================================
+# Server Configuration
+# ===================================
+server:
+  port: 8080
+  error:
+    include-message: always
+    include-binding-errors: always
