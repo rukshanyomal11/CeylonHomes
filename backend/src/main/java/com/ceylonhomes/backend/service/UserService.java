@@ -1,8 +1,10 @@
 package com.ceylonhomes.backend.service;
 
 import com.ceylonhomes.backend.dto.*;
+import com.ceylonhomes.backend.entity.PasswordResetToken;
 import com.ceylonhomes.backend.entity.User;
 import com.ceylonhomes.backend.enums.Role;
+import com.ceylonhomes.backend.repository.PasswordResetTokenRepository;
 import com.ceylonhomes.backend.repository.UserRepository;
 import com.ceylonhomes.backend.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +15,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.SecureRandom;
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -21,6 +26,8 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
+    private final PasswordResetTokenRepository resetTokenRepository;
+    private final EmailService emailService;
 
     @Transactional
     public AuthResponse register(RegisterRequest request) {
@@ -110,5 +117,64 @@ public class UserService {
     public User getUserById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    @Transactional
+    public void sendPasswordResetCode(ForgotPasswordRequest request) {
+        // Check if user exists
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new RuntimeException("No account found with this email address"));
+
+        // Generate 6-digit code
+        String code = generateSixDigitCode();
+
+        // Save token with 10 minutes expiry
+        PasswordResetToken token = PasswordResetToken.builder()
+                .email(request.getEmail())
+                .code(code)
+                .expiryTime(LocalDateTime.now().plusMinutes(10))
+                .used(false)
+                .build();
+
+        resetTokenRepository.save(token);
+
+        // Send email
+        try {
+            emailService.sendVerificationCode(request.getEmail(), code, user.getName());
+        } catch (Exception e) {
+            // If email fails, delete the token and throw error
+            resetTokenRepository.delete(token);
+            throw new RuntimeException("Failed to send email. Please check your email configuration.");
+        }
+    }
+
+    @Transactional
+    public void resetPassword(ResetPasswordRequest request) {
+        // Verify code
+        PasswordResetToken token = resetTokenRepository
+                .findByEmailAndCodeAndUsedFalseAndExpiryTimeAfter(
+                        request.getEmail(),
+                        request.getCode(),
+                        LocalDateTime.now()
+                )
+                .orElseThrow(() -> new RuntimeException("Invalid or expired verification code"));
+
+        // Get user
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Update password
+        user.setPasswordHash(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
+
+        // Mark token as used
+        token.setUsed(true);
+        resetTokenRepository.save(token);
+    }
+
+    private String generateSixDigitCode() {
+        SecureRandom random = new SecureRandom();
+        int code = 100000 + random.nextInt(900000);
+        return String.valueOf(code);
     }
 }

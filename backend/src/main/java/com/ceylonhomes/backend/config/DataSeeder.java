@@ -1,7 +1,7 @@
 package com.ceylonhomes.backend.config;
 
 import com.ceylonhomes.backend.entity.User;
-import com.ceylonhomes.backend.enums.UserRole;
+import com.ceylonhomes.backend.enums.Role;
 import com.ceylonhomes.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -27,21 +27,30 @@ public class DataSeeder {
     @Bean
     CommandLineRunner initDatabase(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         return args -> {
-            // Check if admin already exists
-            if (userRepository.findByEmail(adminEmail).isEmpty()) {
+            // Check if admin already exists by email OR phone
+            boolean adminExistsByEmail = userRepository.findByEmail(adminEmail).isPresent();
+            boolean adminExistsByPhone = userRepository.findByPhone(adminPhone).isPresent();
+            
+            if (!adminExistsByEmail && !adminExistsByPhone) {
                 User admin = new User();
                 admin.setEmail(adminEmail);
-                admin.setPassword(passwordEncoder.encode(adminPassword));
+                admin.setPasswordHash(passwordEncoder.encode(adminPassword));
                 admin.setName(adminName);
-                admin.setPhoneNumber(adminPhone);
-                admin.setRole(UserRole.ADMIN);
+                admin.setPhone(adminPhone);
+                admin.setRole(Role.ADMIN);
                 userRepository.save(admin);
                 
                 System.out.println("✅ Admin user created successfully!");
                 System.out.println("📧 Email: " + adminEmail);
                 System.out.println("🔑 Password: " + adminPassword);
             } else {
-                System.out.println("ℹ️ Admin user already exists with email: " + adminEmail);
+                System.out.println("ℹ️ Admin user already exists");
+                if (adminExistsByEmail) {
+                    System.out.println("📧 Email: " + adminEmail + " is already registered");
+                }
+                if (adminExistsByPhone) {
+                    System.out.println("📱 Phone: " + adminPhone + " is already registered");
+                }
             }
         };
     }
