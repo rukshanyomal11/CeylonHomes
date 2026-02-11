@@ -27,7 +27,7 @@ export const Login = () => {
       const response = await authAPI.login(formData);
       login(response.data);
       toast.success('Login successful!');
-      
+
       // Redirect based on role
       if (response.data.user.role === 'ADMIN') {
         navigate('/admin');
@@ -52,7 +52,7 @@ export const Login = () => {
 
   const handleForgotPassword = async (e) => {
     e.preventDefault();
-    
+
     if (!resetEmail) {
       toast.error('Please enter your email address');
       return;
@@ -66,16 +66,16 @@ export const Login = () => {
     }
 
     setResetLoading(true);
-    
+
     try {
       // Call backend API to send verification code
       await authAPI.forgotPassword({ email: resetEmail });
-      
+
       toast.success(
         `Verification code sent to ${resetEmail}! Check your email.`,
         { duration: 5000 }
       );
-      
+
       setShowCodeInput(true);
     } catch (error) {
       const errorMessage = error.response?.data?.message || 'Failed to send verification code';
@@ -87,7 +87,7 @@ export const Login = () => {
 
   const handleVerifyCode = (e) => {
     e.preventDefault();
-    
+
     if (!enteredCode) {
       toast.error('Please enter the verification code');
       return;
@@ -132,7 +132,7 @@ export const Login = () => {
       });
 
       toast.success('Password reset successfully! You can now login.');
-      
+
       // Reset all states
       setShowForgotPassword(false);
       setShowCodeInput(false);
@@ -232,9 +232,9 @@ export const Login = () => {
 
           {/* Right Side - Image */}
           <div className="hidden lg:block relative overflow-hidden">
-            <img 
-              src="/Wavy_REst-03_Single-04.jpg" 
-              alt="CeylonHomes Login" 
+            <img
+              src="/Wavy_REst-03_Single-04.jpg"
+              alt="CeylonHomes Login"
               className="absolute inset-0 w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-br from-primary-600/80 to-yellow-500/60"></div>
