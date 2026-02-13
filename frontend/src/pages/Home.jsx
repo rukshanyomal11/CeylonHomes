@@ -91,7 +91,7 @@ export const Home = () => {
         </div>
       </div>
 
-      {/* Latest Listings */}
+      {/*  Latest Listings */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-3xl font-bold text-gray-900">Latest Listings</h2>
@@ -115,7 +115,7 @@ export const Home = () => {
         )}
       </div>
 
-      {/* Features Section */}
+      {/*  Features Section */}
       <div className="bg-gray-50 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-center mb-12">Why Choose CeylonHomes?</h2>
@@ -151,7 +151,7 @@ export const Home = () => {
         </div>
       </div>
 
-      {/* View Listing Modal */}
+      {/* View Listing Modal  */}
       {viewModal.show && viewModal.listing && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">

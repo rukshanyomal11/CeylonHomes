@@ -25,7 +25,7 @@ export const AdminDashboard = () => {
     <>
       <Navbar />
       <div className="flex h-screen bg-gray-100 pt-16">
-        {/* Mobile Sidebar Toggle */}
+        {/* Mobile Sidebar Toggle  */}
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
           className="lg:hidden fixed bottom-4 right-4 z-50 bg-primary-500 text-white p-3 rounded-full shadow-lg hover:bg-primary-600"
@@ -35,7 +35,7 @@ export const AdminDashboard = () => {
           </svg>
         </button>
 
-        {/* Overlay for mobile */}
+        {/* Overlay for mobile  */}
         {sidebarOpen && (
           <div
             className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30"
@@ -43,7 +43,7 @@ export const AdminDashboard = () => {
           ></div>
         )}
 
-        {/* Sidebar */}
+        {/* Sidebar  */}
         <div className={`
           fixed lg:static inset-y-0 left-0 z-40 w-64 bg-gray-900 text-white flex flex-col transform transition-transform duration-300 ease-in-out
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
@@ -76,7 +76,7 @@ export const AdminDashboard = () => {
           </nav>
         </div>
 
-        {/* Main Content */}
+        {/* Main Content  */}
         <div className="flex-1 overflow-auto">
           <div className="p-4 lg:p-8">
             <Outlet />
