@@ -4,7 +4,7 @@ export const adminAPI = {
   // Statistics
   getStats: () => api.get('/admin/stats'),
 
-  // Listings Management
+  //  Listings Management
   getListings: (params) => api.get('/admin/listings', { params }),
   getPendingListings: (params) => api.get('/admin/listings', { params: { ...params, status: 'PENDING' } }),
   approveListing: (id, note) => api.post(`/admin/listings/${id}/approve`, { action: 'APPROVE', note }),
