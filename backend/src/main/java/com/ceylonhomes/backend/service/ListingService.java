@@ -226,6 +226,18 @@ public class ListingService {
         return listings.map(this::convertToDTO);
     }
 
+    public Page<ListingDTO> getAdminListings(String status, String title, String owner, Pageable pageable) {
+        ListingStatus listingStatus = null;
+        if (status != null && !status.isBlank()) {
+            listingStatus = ListingStatus.valueOf(status.toUpperCase());
+        }
+        String titleFilter = (title != null && !title.isBlank()) ? title.trim() : null;
+        String ownerFilter = (owner != null && !owner.isBlank()) ? owner.trim() : null;
+
+        Page<Listing> listings = listingRepository.adminSearch(listingStatus, titleFilter, ownerFilter, pageable);
+        return listings.map(this::convertToDTO);
+    }
+
     private ListingDTO convertToDTO(Listing listing) {
         ListingDTO dto = new ListingDTO();
         dto.setId(listing.getId());

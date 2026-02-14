@@ -5,15 +5,21 @@ import { toast } from 'react-hot-toast';
 export const AuditLog = () => {
   const [actions, setActions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const pageSize = 8;
+  const startIndex = page * pageSize;
 
   useEffect(() => {
     fetchAuditLog();
-  }, []);
+  }, [page]);
 
   const fetchAuditLog = async () => {
+    setLoading(true);
     try {
-      const response = await adminAPI.getApprovalHistory({ page: 0, size: 100 });
-      setActions(response.data || []);
+      const response = await adminAPI.getApprovalHistory({ page, size: pageSize });
+      setActions(response.data.content || []);
+      setTotalPages(response.data.totalPages ?? 0);
     } catch (error) {
       console.error('Error fetching audit log:', error);
       toast.error('Failed to load audit log');
@@ -24,12 +30,16 @@ export const AuditLog = () => {
 
   const getActionBadge = (action) => {
     const colors = {
-      APPROVED: 'bg-green-100 text-green-800',
-      REJECTED: 'bg-red-100 text-red-800',
-      SUSPENDED: 'bg-purple-100 text-purple-800',
-      UNSUSPENDED: 'bg-blue-100 text-blue-800',
+      APPROVED: 'bg-green-50 text-green-800 ring-green-200',
+      REJECTED: 'bg-red-50 text-red-800 ring-red-200',
+      SUSPENDED: 'bg-purple-50 text-purple-800 ring-purple-200',
+      UNSUSPENDED: 'bg-blue-50 text-blue-800 ring-blue-200',
     };
-    return <span className={`px-2 py-1 text-xs font-semibold rounded-full ${colors[action]}`}>{action}</span>;
+    return (
+      <span className={`inline-flex items-center px-2.5 py-1 text-xs font-semibold rounded-full ring-1 ring-inset ${colors[action]}`}>
+        {action}
+      </span>
+    );
   };
 
   return (
@@ -39,29 +49,53 @@ export const AuditLog = () => {
       {loading ? (
         <div className="text-center py-12">Loading...</div>
       ) : (
-        <div className="bg-white rounded-lg shadow overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-gray-50 border-b">
+        <div className="bg-white/90 backdrop-blur rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+          <table className="w-full text-sm">
+            <thead className="bg-slate-50 border-b border-slate-200">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Listing</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Action</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Admin</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Note</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wide">#</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wide">Date</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wide">Listing</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wide">Action</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wide">Admin</th>
+                <th className="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wide">Note</th>
               </tr>
             </thead>
-            <tbody className="divide-y">
-              {actions.map((action) => (
-                <tr key={action.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 text-sm">{new Date(action.createdAt).toLocaleString()}</td>
-                  <td className="px-6 py-4">{action.listingTitle}</td>
+            <tbody className="divide-y divide-slate-100">
+              {actions.map((action, index) => (
+                <tr key={action.id} className="transition-colors even:bg-slate-50/50 hover:bg-primary-50/50">
+                  <td className="px-6 py-4 text-slate-500">{startIndex + index + 1}</td>
+                  <td className="px-6 py-4 text-slate-600">{new Date(action.createdAt).toLocaleString()}</td>
+                  <td className="px-6 py-4 font-medium text-slate-900">{action.listingTitle}</td>
                   <td className="px-6 py-4">{getActionBadge(action.action)}</td>
-                  <td className="px-6 py-4 text-sm">{action.adminName}</td>
-                  <td className="px-6 py-4 text-sm text-gray-600">{action.note}</td>
+                  <td className="px-6 py-4 text-slate-700">{action.adminName}</td>
+                  <td className="px-6 py-4 text-slate-600">{action.note}</td>
                 </tr>
               ))}
             </tbody>
           </table>
+
+          <div className="flex items-center justify-between px-6 py-4 border-t border-slate-200 bg-white">
+            <p className="text-sm text-slate-600">
+              Page {Math.min(page + 1, Math.max(totalPages, 1))} of {Math.max(totalPages, 1)}
+            </p>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setPage((prev) => Math.max(prev - 1, 0))}
+                disabled={page === 0}
+                className="px-3 py-1.5 text-sm rounded-md border border-slate-200 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50"
+              >
+                Previous
+              </button>
+              <button
+                onClick={() => setPage((prev) => prev + 1)}
+                disabled={totalPages === 0 || page + 1 >= totalPages}
+                className="px-3 py-1.5 text-sm rounded-md border border-slate-200 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-50"
+              >
+                Next
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

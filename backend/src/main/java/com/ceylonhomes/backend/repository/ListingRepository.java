@@ -22,6 +22,19 @@ public interface ListingRepository extends JpaRepository<Listing, Long> {
     
     // Find listings by status
     Page<Listing> findByStatusOrderByCreatedAtDesc(ListingStatus status, Pageable pageable);
+
+    // Admin search with optional filters
+    @Query("SELECT l FROM Listing l WHERE " +
+           "(:status IS NULL OR l.status = :status) " +
+           "AND (:title IS NULL OR LOWER(l.title) LIKE LOWER(CONCAT('%', :title, '%'))) " +
+           "AND (:owner IS NULL OR LOWER(l.owner.name) LIKE LOWER(CONCAT('%', :owner, '%')) " +
+           "OR LOWER(l.owner.email) LIKE LOWER(CONCAT('%', :owner, '%')))")
+    Page<Listing> adminSearch(
+        @Param("status") ListingStatus status,
+        @Param("title") String title,
+        @Param("owner") String owner,
+        Pageable pageable
+    );
     
     // Count by status
     long countByStatus(ListingStatus status);

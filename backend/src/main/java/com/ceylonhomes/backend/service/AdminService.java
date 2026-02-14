@@ -107,11 +107,10 @@ public class AdminService {
         approvalActionRepository.save(action);
     }
 
-    public List<ApprovalActionDTO> getApprovalHistory() {
-        List<ApprovalAction> actions = approvalActionRepository.findAllByOrderByCreatedAtDesc();
-        return actions.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+    public Page<ApprovalActionDTO> getApprovalHistory(Pageable pageable) {
+        return approvalActionRepository
+                .findAllByOrderByCreatedAtDesc(pageable)
+                .map(this::convertToDTO);
     }
 
     public List<ApprovalActionDTO> getListingApprovalHistory(Long listingId) {

@@ -47,18 +47,12 @@ public class AdminController {
     @GetMapping("/listings")
     public ResponseEntity<Page<ListingDTO>> getListings(
             @RequestParam(required = false) String status,
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String owner,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
-        Page<ListingDTO> listings;
-        
-        if (status != null && !status.isEmpty()) {
-            ListingStatus listingStatus = ListingStatus.valueOf(status.toUpperCase());
-            listings = listingService.getListingsByStatus(listingStatus, pageable);
-        } else {
-            listings = listingService.getAllListings(pageable);
-        }
-        
+        Page<ListingDTO> listings = listingService.getAdminListings(status, title, owner, pageable);
         return ResponseEntity.ok(listings);
     }
 
@@ -129,8 +123,11 @@ public class AdminController {
     }
 
     @GetMapping("/approval-actions")
-    public ResponseEntity<List<ApprovalActionDTO>> getApprovalHistory() {
-        List<ApprovalActionDTO> actions = adminService.getApprovalHistory();
+    public ResponseEntity<Page<ApprovalActionDTO>> getApprovalHistory(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Page<ApprovalActionDTO> actions = adminService.getApprovalHistory(pageable);
         return ResponseEntity.ok(actions);
     }
 
