@@ -73,11 +73,6 @@ export const inquiryAPI = {
   getListingInquiries: (listingId) => api.get(`/inquiries/listing/${listingId}`),
 };
 
-// Report APIs
-export const reportAPI = {
-  create: (listingId, data) => api.post(`/reports/listing/${listingId}`, data),
-};
-
 // Admin APIs
 export const adminAPI = {
   getPendingListings: (params) => api.get('/admin/listings/pending', { params }),
@@ -85,10 +80,6 @@ export const adminAPI = {
   rejectListing: (id, data) => api.post(`/admin/listings/${id}/reject`, data),
   suspendListing: (id, data) => api.post(`/admin/listings/${id}/suspend`, data),
   unsuspendListing: (id, data) => api.post(`/admin/listings/${id}/unsuspend`, data),
-  getReports: () => api.get('/admin/reports'),
-  getOpenReports: () => api.get('/admin/reports/open'),
-  markReportReviewed: (id) => api.patch(`/admin/reports/${id}/reviewed`),
-  markReportClosed: (id) => api.patch(`/admin/reports/${id}/closed`),
   getApprovalHistory: () => api.get('/admin/approval-actions'),
   getListingApprovalHistory: (listingId) => api.get(`/admin/approval-actions/listing/${listingId}`),
 };

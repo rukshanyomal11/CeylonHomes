@@ -86,9 +86,6 @@ public class SecurityConfig {
                 // Inquiry endpoints (USER or SELLER)
                 .requestMatchers(HttpMethod.POST, "/api/inquiries/**").hasAnyRole("USER", "SELLER")
                 
-                // Report endpoints (USER or SELLER)
-                .requestMatchers(HttpMethod.POST, "/api/reports/**").hasAnyRole("USER", "SELLER")
-                
                 // All other requests require authentication
                 .anyRequest().authenticated()
             );

@@ -17,7 +17,6 @@ import { AdminDashboard } from './pages/admin/AdminDashboard';
 import { AdminOverview } from './pages/admin/AdminOverview';
 import { PendingListings } from './pages/admin/PendingListings';
 import { AllListings } from './pages/admin/AllListings';
-import { Reports } from './pages/admin/Reports';
 import { AuditLog } from './pages/admin/AuditLog';
 import DebugAuth from './pages/DebugAuth';
 import './index.css';
@@ -45,7 +44,6 @@ function App() {
               <Route index element={<AdminOverview />} />
               <Route path="pending" element={<PendingListings />} />
               <Route path="listings" element={<AllListings />} />
-              <Route path="reports" element={<Reports />} />
               <Route path="audit" element={<AuditLog />} />
             </Route>
 
@@ -69,4 +67,3 @@ function App() {
 }
 
 export default App;
-

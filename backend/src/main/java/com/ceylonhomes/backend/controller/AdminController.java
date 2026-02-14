@@ -4,7 +4,6 @@ import com.ceylonhomes.backend.dto.*;
 import com.ceylonhomes.backend.entity.User;
 import com.ceylonhomes.backend.enums.ListingStatus;
 import com.ceylonhomes.backend.service.AdminService;
-import com.ceylonhomes.backend.service.ReportService;
 import com.ceylonhomes.backend.service.UserService;
 import com.ceylonhomes.backend.service.ListingService;
 import jakarta.validation.Valid;
@@ -26,7 +25,6 @@ import java.util.Map;
 public class AdminController {
 
     private final AdminService adminService;
-    private final ReportService reportService;
     private final UserService userService;
     private final ListingService listingService;
 
@@ -37,8 +35,7 @@ public class AdminController {
             listingService.countByStatus(ListingStatus.PENDING),
             listingService.countByStatus(ListingStatus.APPROVED),
             listingService.countByStatus(ListingStatus.REJECTED),
-            listingService.countByStatus(ListingStatus.SUSPENDED),
-            reportService.countOpenReports()
+            listingService.countByStatus(ListingStatus.SUSPENDED)
         );
         return ResponseEntity.ok(stats);
     }
@@ -98,29 +95,6 @@ public class AdminController {
         return ResponseEntity.ok(Map.of("message", "Listing unsuspended successfully"));
     }
 
-    @GetMapping("/reports")
-    public ResponseEntity<List<ReportDTO>> getAllReports() {
-        List<ReportDTO> reports = reportService.getAllReports();
-        return ResponseEntity.ok(reports);
-    }
-
-    @GetMapping("/reports/open")
-    public ResponseEntity<List<ReportDTO>> getOpenReports() {
-        List<ReportDTO> reports = reportService.getOpenReports();
-        return ResponseEntity.ok(reports);
-    }
-
-    @PatchMapping("/reports/{id}/reviewed")
-    public ResponseEntity<Map<String, String>> markReportAsReviewed(@PathVariable Long id) {
-        reportService.markAsReviewed(id);
-        return ResponseEntity.ok(Map.of("message", "Report marked as reviewed"));
-    }
-
-    @PatchMapping("/reports/{id}/closed")
-    public ResponseEntity<Map<String, String>> markReportAsClosed(@PathVariable Long id) {
-        reportService.markAsClosed(id);
-        return ResponseEntity.ok(Map.of("message", "Report closed successfully"));
-    }
 
     @GetMapping("/approval-actions")
     public ResponseEntity<Page<ApprovalActionDTO>> getApprovalHistory(

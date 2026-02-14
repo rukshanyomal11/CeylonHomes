@@ -12,5 +12,4 @@ public class AdminStatsDTO {
     private long approvedCount;
     private long rejectedCount;
     private long suspendedCount;
-    private long openReportsCount;
 }

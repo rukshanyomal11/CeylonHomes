@@ -10,7 +10,6 @@ export const AdminDashboard = () => {
     { path: '/admin', label: 'Overview', icon: '📊' },
     { path: '/admin/pending', label: 'Pending Listings', icon: '⏳' },
     { path: '/admin/listings', label: 'All Listings', icon: '🏘️' },
-    { path: '/admin/reports', label: 'Reports', icon: '🚨' },
     { path: '/admin/audit', label: 'Audit Log', icon: '📝' },
   ];
 

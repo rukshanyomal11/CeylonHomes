@@ -32,7 +32,6 @@ export const AdminOverview = () => {
     { label: 'Approved Listings', value: stats?.approvedCount || 0, color: 'bg-green-100 text-green-800', accent: 'bg-green-200/40', link: '/admin/listings?status=APPROVED' },
     { label: 'Rejected Listings', value: stats?.rejectedCount || 0, color: 'bg-red-100 text-red-800', accent: 'bg-red-200/40', link: '/admin/listings?status=REJECTED' },
     { label: 'Suspended Listings', value: stats?.suspendedCount || 0, color: 'bg-purple-100 text-purple-800', accent: 'bg-purple-200/40', link: '/admin/listings?status=SUSPENDED' },
-    { label: 'Open Reports', value: stats?.openReportsCount || 0, color: 'bg-orange-100 text-orange-800', accent: 'bg-orange-200/40', link: '/admin/reports' },
   ];
 
   return (
@@ -43,7 +42,7 @@ export const AdminOverview = () => {
             <p className="text-xs uppercase tracking-wider text-primary-600 font-semibold">Admin Dashboard</p>
             <h1 className="text-3xl lg:text-4xl font-bold text-slate-900 mt-2">Overview</h1>
             <p className="text-sm text-slate-600 mt-2">
-              Track listings, approvals, and reports in one place.
+              Track listings and approvals in one place.
             </p>
           </div>
           <div className="flex items-center gap-3">
@@ -52,12 +51,6 @@ export const AdminOverview = () => {
               className="inline-flex items-center gap-2 rounded-full bg-primary-600 text-white px-4 py-2 text-sm font-semibold shadow hover:bg-primary-700 transition"
             >
               Review Pending
-            </Link>
-            <Link
-              to="/admin/reports"
-              className="inline-flex items-center gap-2 rounded-full border border-slate-300 text-slate-700 px-4 py-2 text-sm font-semibold hover:border-slate-400 hover:text-slate-900 transition"
-            >
-              View Reports
             </Link>
           </div>
         </div>
@@ -97,16 +90,6 @@ export const AdminOverview = () => {
               <p className="text-sm text-slate-600">Approve or reject new listings</p>
             </div>
             <span className="text-primary-600 text-xl font-bold">-&gt;</span>
-          </Link>
-          <Link
-            to="/admin/reports"
-            className="flex items-center justify-between p-5 rounded-2xl border border-orange-200 bg-gradient-to-br from-orange-50 to-white hover:border-orange-400 hover:shadow-md transition-all"
-          >
-            <div>
-              <h3 className="font-semibold text-slate-900">View Reports</h3>
-              <p className="text-sm text-slate-600">Review and manage user reports</p>
-            </div>
-            <span className="text-orange-600 text-xl font-bold">-&gt;</span>
           </Link>
         </div>
       </div>
