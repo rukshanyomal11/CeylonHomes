@@ -150,7 +150,7 @@ PENDING → (admin approves) → APPROVED → (seller marks) → SOLD/RENTED
 
 ### 5. Admin Approval (Required)
 **Note**: To mark as sold/rented, an admin must first approve your listing.
-- Admin login: `admin@local` / `Admin@123`
+- Admin login: use `ADMIN_EMAIL` / `ADMIN_PASSWORD` from `.env`
 - Admin dashboard: `/admin` (if implemented)
 - Admin approves → Status becomes APPROVED
 

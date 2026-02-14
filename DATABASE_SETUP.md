@@ -144,16 +144,16 @@ ceylonhomes
 | reason | VARCHAR(500) | Approval/rejection reason |
 | created_at | DATETIME | Action time |
 
-## 🔐 Default Admin User
+## 🔐 Admin User
 
 The admin user is automatically created on first application startup using values from `.env`:
 
-**Default Credentials (from .env):**
-- Email: `admin@ceylonhomes.lk`
-- Password: `Admin@123`
-- Phone: `+94771234567`
+**Credentials (from `.env`):**
+- Email: value of `ADMIN_EMAIL`
+- Password: value of `ADMIN_PASSWORD`
+- Phone: value of `ADMIN_PHONE`
 
-⚠️ **IMPORTANT:** Change these in your `.env` file before deploying to production!
+⚠️ **IMPORTANT:** Never commit `.env` to GitHub. Set strong values before deploying to production.
 
 ## 🗺️ Supported Districts
 

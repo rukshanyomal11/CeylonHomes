@@ -1,6 +1,8 @@
 spring:
   application:
     name: ceylonhomes-backend
+  config:
+    import: optional:file:.env[.properties],optional:file:../.env[.properties]
   
   # ===================================
   # Database Configuration
@@ -34,6 +36,26 @@ spring:
       max-file-size: 10MB        # Max size per file
       max-request-size: 50MB     # Max total request size
 
+  # ===================================
+  # Email Configuration (Gmail SMTP)
+  # ===================================
+  # For password reset functionality
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+
 # ===================================
 # JWT Configuration
 # ===================================
@@ -54,30 +76,10 @@ upload:
 # Default admin account (created on first startup)
 # Change these in .env file for production
 admin:
-  email: ${ADMIN_EMAIL:admin@ceylonhomes.lk}
-  password: ${ADMIN_PASSWORD:Admin@123}
+  email: ${ADMIN_EMAIL:}
+  password: ${ADMIN_PASSWORD:}
   name: ${ADMIN_NAME:Admin User}
-  phone: ${ADMIN_PHONE:+94771234567}
-
-# ===================================# Email Configuration (Gmail SMTP)
-# ===================================
-# For password reset functionality
-spring:
-  mail:
-    host: ${MAIL_HOST:smtp.gmail.com}
-    port: ${MAIL_PORT:587}
-    username: ${MAIL_USERNAME:your-email@gmail.com}
-    password: ${MAIL_PASSWORD:your-google-app-password}
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-            required: true
-          connectiontimeout: 5000
-          timeout: 5000
-          writetimeout: 5000
+  phone: ${ADMIN_PHONE:}
 
 # Email Settings
 app:

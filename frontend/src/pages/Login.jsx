@@ -211,15 +211,6 @@ export const Login = () => {
                 </div>
               </div>
 
-              {/* Development mode only - Remove in production */}
-              {import.meta.env.DEV && (
-                <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-                  <p className="text-xs text-yellow-800 font-medium mb-2">Development Credentials:</p>
-                  <p className="text-xs text-yellow-700">Email: admin@ceylonhomes.lk</p>
-                  <p className="text-xs text-yellow-700">Password: Admin@123</p>
-                </div>
-              )}
-
               <button
                 type="submit"
                 disabled={loading}

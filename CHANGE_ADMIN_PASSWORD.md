@@ -12,18 +12,18 @@ Find these lines and change the values:
 
 ```env
 # Change these to your preferred admin credentials
-ADMIN_EMAIL=admin@ceylonhomes.lk        ← Change this
-ADMIN_PASSWORD=Admin@123                ← Change this
+ADMIN_EMAIL=your-admin-email@example.com        ← Change this
+ADMIN_PASSWORD=your-strong-admin-password       ← Change this
 ADMIN_NAME=Admin User                   ← Change this
-ADMIN_PHONE=+94771234567               ← Change this
+ADMIN_PHONE=+10000000000               ← Change this
 ```
 
 ### Step 3: Example - Change to Your Details
 ```env
-ADMIN_EMAIL=rukshan@gmail.com
-ADMIN_PASSWORD=MySecurePass123!
-ADMIN_NAME=Rukshan Silva
-ADMIN_PHONE=+94771234567
+ADMIN_EMAIL=your-admin-email@example.com
+ADMIN_PASSWORD=YourStrongPassword123!
+ADMIN_NAME=Admin User
+ADMIN_PHONE=+10000000000
 ```
 
 ### Step 4: Delete Old Admin User from Database
@@ -103,7 +103,7 @@ SET
   email = 'your-new-email@gmail.com',
   password = '$2a$10$YOUR_BCRYPT_HASH_HERE',
   name = 'Your Name',
-  phone_number = '+94771234567'
+  phone_number = '+10000000000'
 WHERE role = 'ADMIN';
 
 -- Verify the change
@@ -126,7 +126,7 @@ Your password should have:
 **Good Examples:**
 - `MySecure@Pass123`
 - `Admin#2026Strong`
-- `Rukshan!Password99`
+- `Strong!Password99`
 
 **Bad Examples:**
 - `admin123` (too simple)
@@ -140,7 +140,7 @@ Your password should have:
 - ✅ Store safely in password manager
 
 ### 3. Change Default Password in Production
-The default password `Admin@123` should be changed before deploying to production!
+The admin password set in `.env` should be changed before deploying to production!
 
 ---
 
@@ -149,10 +149,10 @@ The default password `Admin@123` should be changed before deploying to productio
 Let's say you want to change admin to your personal email:
 
 ### Your New Details:
-- Email: `rukshan@gmail.com`
-- Password: `MySecure@2026`
-- Name: `Rukshan Perera`
-- Phone: `+94771234567`
+- Email: `your-admin-email@example.com`
+- Password: `YourStrongPassword123!`
+- Name: `Admin User`
+- Phone: `+10000000000`
 
 ### Step-by-Step:
 
@@ -165,10 +165,10 @@ code .env
 
 **2. Update these lines:**
 ```env
-ADMIN_EMAIL=rukshan@gmail.com
-ADMIN_PASSWORD=MySecure@2026
-ADMIN_NAME=Rukshan Perera
-ADMIN_PHONE=+94771234567
+ADMIN_EMAIL=your-admin-email@example.com
+ADMIN_PASSWORD=YourStrongPassword123!
+ADMIN_NAME=Admin User
+ADMIN_PHONE=+10000000000
 ```
 
 **3. Save the file (Ctrl+S)**
@@ -190,13 +190,12 @@ mvn spring-boot:run
 **6. Wait for this message in console:**
 ```
 ✅ Admin user created successfully!
-📧 Email: rukshan@gmail.com
-🔑 Password: MySecure@2026
+📧 Email: your-admin-email@example.com
 ```
 
 **7. Login at http://localhost:5173/login**
-- Email: `rukshan@gmail.com`
-- Password: `MySecure@2026`
+- Email: `your-admin-email@example.com`
+- Password: `YourStrongPassword123!`
 
 **8. Done! ✅**
 
@@ -255,7 +254,7 @@ CeylonHomes/
 | Admin Email | `ADMIN_EMAIL=your@email.com` | `.env` |
 | Admin Password | `ADMIN_PASSWORD=YourPass123!` | `.env` |
 | Admin Name | `ADMIN_NAME=Your Name` | `.env` |
-| Admin Phone | `ADMIN_PHONE=+94771234567` | `.env` |
+| Admin Phone | `ADMIN_PHONE=+10000000000` | `.env` |
 
 **Remember:** After changing .env, always:
 1. Delete old admin from database

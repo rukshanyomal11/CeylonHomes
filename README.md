@@ -79,11 +79,11 @@ A modern, full-stack web application for property rental and sale in Sri Lanka. 
    - Frontend: http://localhost:5173
    - Backend API: http://localhost:8080
 
-### Default Admin Login
-- Email: `admin@ceylonhomes.lk`
-- Password: `Admin@123`
+### Admin Login
+- Set `ADMIN_EMAIL` and `ADMIN_PASSWORD` in `.env`.
+- Use those values to log in.
 
-> ⚠️ Change these credentials in production! See [SETUP_GUIDE.md](SETUP_GUIDE.md) for details.
+> ⚠️ Never commit `.env` to GitHub. See [SETUP_GUIDE.md](SETUP_GUIDE.md) for details.
 
 ## 📚 Documentation
 
@@ -464,12 +464,12 @@ npm run dev
 
 The frontend will start on **http://localhost:5173**
 
-## 👤 Default Admin Account
+## 👤 Admin Account
 
-The application automatically seeds an admin account on first run:
+The application automatically seeds an admin account on first run using `.env`:
 
-- **Email:** `admin@local`
-- **Password:** `Admin@123`
+- **Email:** value of `ADMIN_EMAIL`
+- **Password:** value of `ADMIN_PASSWORD`
 - **Role:** ADMIN
 
 ## 📡 API Endpoints
@@ -530,8 +530,8 @@ curl -X POST http://localhost:8080/api/auth/register \
 curl -X POST http://localhost:8080/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{
-    "email": "admin@local",
-    "password": "Admin@123"
+    "email": "your-admin-email@example.com",
+    "password": "your-strong-admin-password"
   }'
 ```
 

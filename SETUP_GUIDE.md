@@ -70,8 +70,8 @@ DB_PASS=your_mysql_password
 JWT_SECRET=your_strong_random_secret_key_here
 
 # Configure admin account (created on first run)
-ADMIN_EMAIL=admin@ceylonhomes.lk
-ADMIN_PASSWORD=SecurePassword123!
+ADMIN_EMAIL=your-admin-email@example.com
+ADMIN_PASSWORD=your-strong-admin-password
 ```
 
 ### 4. Backend Setup
@@ -137,9 +137,9 @@ The frontend will start at: `http://localhost:5173`
 
 Open your browser and go to: **http://localhost:5173**
 
-**Default Admin Credentials:**
-- Email: `admin@ceylonhomes.lk` (or value from .env)
-- Password: `Admin@123` (or value from .env)
+**Admin Credentials (from `.env`):**
+- Email: value of `ADMIN_EMAIL`
+- Password: value of `ADMIN_PASSWORD`
 
 ## 🔧 Configuration Details
 
@@ -151,11 +151,12 @@ The backend uses environment variables with fallback defaults:
 |----------|---------|-------------|
 | `DB_URL` | `jdbc:mysql://localhost:3306/ceylonhomes` | MySQL connection URL |
 | `DB_USER` | `root` | MySQL username |
-| `DB_PASS` | `APYRK` | MySQL password |
+| `DB_PASS` | (required) | MySQL password |
 | `JWT_SECRET` | (auto-generated) | Secret key for JWT tokens |
 | `UPLOAD_DIR` | `uploads` | Directory for uploaded files |
-| `ADMIN_EMAIL` | `admin@ceylonhomes.lk` | Admin account email |
-| `ADMIN_PASSWORD` | `Admin@123` | Admin account password |
+| `ADMIN_EMAIL` | (required) | Admin account email |
+| `ADMIN_PASSWORD` | (required) | Admin account password |
+| `ADMIN_PHONE` | (required) | Admin account phone |
 
 ### Frontend Configuration
 

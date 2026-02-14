@@ -10,7 +10,6 @@ public class CeylonhomesBackendApplication {
 		SpringApplication.run(CeylonhomesBackendApplication.class, args);
 		System.out.println("\n🏠 CeylonHomes Backend API is running!");
 		System.out.println("📍 API URL: http://localhost:8080");
-		System.out.println("🔐 Admin Login: admin@ceylonhomes.lk / Admin@123\n");
 	}
 
 }

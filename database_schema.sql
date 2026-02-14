@@ -158,10 +158,10 @@ COMMENT='Audit log of admin approval/rejection actions';
 -- Sample Data (Optional - for testing)
 -- =====================================================
 -- Uncomment to insert sample admin user
--- Password: Admin@123 (BCrypt encoded)
+-- Password: <your-admin-password> (BCrypt encoded)
 /*
 INSERT INTO users (name, email, phone_number, password, role) VALUES 
-('Admin User', 'admin@ceylonhomes.lk', '+94771234567', '$2a$10$example.hash.here', 'ADMIN')
+('Admin User', 'your-admin-email@example.com', '+10000000000', '$2a$10$example.hash.here', 'ADMIN')
 ON DUPLICATE KEY UPDATE email=email;
 */
 

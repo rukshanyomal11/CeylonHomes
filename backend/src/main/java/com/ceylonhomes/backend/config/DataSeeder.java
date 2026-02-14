@@ -27,6 +27,12 @@ public class DataSeeder {
     @Bean
     CommandLineRunner initDatabase(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         return args -> {
+            if (adminEmail == null || adminEmail.isBlank()
+                    || adminPassword == null || adminPassword.isBlank()
+                    || adminPhone == null || adminPhone.isBlank()) {
+                System.out.println("WARNING: Admin credentials are not set. Set ADMIN_EMAIL, ADMIN_PASSWORD, and ADMIN_PHONE to seed the admin account.");
+                return;
+            }
             // Check if admin already exists by email OR phone
             boolean adminExistsByEmail = userRepository.findByEmail(adminEmail).isPresent();
             boolean adminExistsByPhone = userRepository.findByPhone(adminPhone).isPresent();
@@ -42,7 +48,6 @@ public class DataSeeder {
                 
                 System.out.println("✅ Admin user created successfully!");
                 System.out.println("📧 Email: " + adminEmail);
-                System.out.println("🔑 Password: " + adminPassword);
             } else {
                 System.out.println("ℹ️ Admin user already exists");
                 if (adminExistsByEmail) {
