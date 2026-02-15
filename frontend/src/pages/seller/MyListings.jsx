@@ -11,6 +11,9 @@ export const MyListings = () => {
   const [loading, setLoading] = useState(true);
   const [confirmDialog, setConfirmDialog] = useState({ show: false, action: null, listingId: null });
   const [viewModal, setViewModal] = useState({ show: false, listing: null });
+  const [activePhoto, setActivePhoto] = useState(0);
+  const [page, setPage] = useState(0);
+  const pageSize = 8;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,6 +22,7 @@ export const MyListings = () => {
 
   useEffect(() => {
     filterListings();
+    setPage(0);
   }, [statusFilter, searchTerm, listings]);
 
   const fetchListings = async () => {
@@ -102,10 +106,12 @@ export const MyListings = () => {
   };
 
   const openViewModal = (listing) => {
+    setActivePhoto(0);
     setViewModal({ show: true, listing });
   };
 
   const closeViewModal = () => {
+    setActivePhoto(0);
     setViewModal({ show: false, listing: null });
   };
 
@@ -124,16 +130,16 @@ export const MyListings = () => {
 
   const getStatusBadge = (status) => {
     const statusColors = {
-      PENDING: 'bg-yellow-100 text-yellow-800',
-      APPROVED: 'bg-green-100 text-green-800',
-      REJECTED: 'bg-red-100 text-red-800',
-      SOLD: 'bg-blue-100 text-blue-800',
-      RENTED: 'bg-purple-100 text-purple-800',
-      ARCHIVED: 'bg-gray-100 text-gray-800',
+      PENDING: 'bg-yellow-50 text-yellow-800 ring-yellow-200',
+      APPROVED: 'bg-green-50 text-green-800 ring-green-200',
+      REJECTED: 'bg-red-50 text-red-800 ring-red-200',
+      SOLD: 'bg-blue-50 text-blue-800 ring-blue-200',
+      RENTED: 'bg-purple-50 text-purple-800 ring-purple-200',
+      ARCHIVED: 'bg-slate-50 text-slate-700 ring-slate-200',
     };
 
     return (
-      <span className={`px-2 py-1 text-xs font-semibold rounded-full ${statusColors[status] || 'bg-gray-100 text-gray-800'}`}>
+      <span className={`inline-flex items-center px-2.5 py-1 text-xs font-semibold rounded-full ring-1 ring-inset ${statusColors[status] || 'bg-gray-100 text-gray-800 ring-gray-200'}`}>
         {status}
       </span>
     );
@@ -230,7 +236,9 @@ export const MyListings = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {filteredListings.map((listing) => (
+                {filteredListings
+                  .slice(page * pageSize, page * pageSize + pageSize)
+                  .map((listing) => (
                   <tr key={listing.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-medium text-gray-900">{listing.title}</div>
@@ -302,126 +310,192 @@ export const MyListings = () => {
                 ))}
               </tbody>
             </table>
+
+            <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200 bg-white">
+              <p className="text-sm text-gray-600">
+                Page {Math.min(page + 1, Math.max(Math.ceil(filteredListings.length / pageSize), 1))} of {Math.max(Math.ceil(filteredListings.length / pageSize), 1)}
+              </p>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setPage((prev) => Math.max(prev - 1, 0))}
+                  disabled={page === 0}
+                  className="px-3 py-1.5 text-sm rounded-md border border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+                >
+                  Previous
+                </button>
+                <button
+                  onClick={() => setPage((prev) => prev + 1)}
+                  disabled={page + 1 >= Math.ceil(filteredListings.length / pageSize)}
+                  className="px-3 py-1.5 text-sm rounded-md border border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </div>
 
       {/* View Modal */}
       {viewModal.show && viewModal.listing && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
-          <div className="bg-white rounded-lg max-w-4xl w-full mx-4 my-8">
-            {/* Modal Header */}
-            <div className="flex items-center justify-between p-6 border-b border-gray-200">
-              <h2 className="text-2xl font-bold text-gray-900">{viewModal.listing.title}</h2>
-              <button
-                onClick={closeViewModal}
-                className="text-gray-400 hover:text-gray-600 text-2xl"
-              >
-                ×
-              </button>
-            </div>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-md">
+          <div className="relative w-full max-w-6xl overflow-hidden rounded-[34px] border border-primary-100/60 bg-white/95 shadow-[0_50px_160px_-80px_rgba(0,0,0,0.75)]">
+            <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_left,rgba(234,179,8,0.18),transparent_55%)]" />
+            <div className="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-primary-300/20 blur-3xl" />
+            <div className="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-amber-200/20 blur-3xl" />
 
-            {/* Modal Body */}
-            <div className="p-6 max-h-[80vh] overflow-y-auto">
-              {/* Photos Gallery */}
-              {viewModal.listing.photoUrls && viewModal.listing.photoUrls.length > 0 && (
-                <div className="mb-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">Photos</h3>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    {viewModal.listing.photoUrls.map((photo, index) => (
-                      <div key={index} className="aspect-video overflow-hidden rounded-lg border border-gray-200">
-                        <img
-                          src={photo}
-                          alt={`${viewModal.listing.title} - Photo ${index + 1}`}
-                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-200"
-                        />
+            <div className="relative">
+              {/* Modal Header */}
+              <div className="relative overflow-hidden border-b border-primary-200/40 bg-gradient-to-r from-primary-800 via-primary-700 to-primary-500 px-6 py-5">
+                <div className="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.35),transparent_55%)]" />
+                <div className="relative flex items-center justify-between gap-4">
+                  <div>
+                    <p className="text-[10px] uppercase tracking-[0.2em] text-primary-100">Listing Details</p>
+                    <h2 className="text-3xl font-bold text-white mt-1">{viewModal.listing.title}</h2>
+                  </div>
+
+                  <button
+                    onClick={closeViewModal}
+                    className="inline-flex items-center justify-center h-10 w-10 rounded-full bg-white/10 text-white hover:bg-white/20 transition"
+                    aria-label="Close modal"
+                  >
+                    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M18 6 6 18" />
+                      <path d="m6 6 12 12" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              {/* Modal Body */}
+              <div className="max-h-[80vh] overflow-y-auto p-6 lg:p-8 space-y-8">
+                <div className="grid grid-cols-1 lg:grid-cols-[1.25fr_0.75fr] gap-6">
+                  {/* Gallery */}
+                  <div className="space-y-4">
+                    {viewModal.listing.photoUrls && viewModal.listing.photoUrls.length > 0 ? (
+                      <>
+                        <div className="relative aspect-video overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 shadow-sm">
+                          <img
+                            src={viewModal.listing.photoUrls[activePhoto]}
+                            alt={`${viewModal.listing.title} - Photo ${activePhoto + 1}`}
+                            className="h-full w-full object-cover"
+                          />
+                          <div className="absolute bottom-3 right-3 rounded-full bg-black/60 px-3 py-1 text-xs font-semibold text-white">
+                            {activePhoto + 1} / {viewModal.listing.photoUrls.length}
+                          </div>
+                        </div>
+                        {viewModal.listing.photoUrls.length > 1 && (
+                          <div className="grid grid-cols-4 gap-3">
+                            {viewModal.listing.photoUrls.map((photo, index) => (
+                              <button
+                                key={index}
+                                type="button"
+                                onClick={() => setActivePhoto(index)}
+                                className={`aspect-video overflow-hidden rounded-xl border transition-all ${activePhoto === index ? 'border-primary-500 ring-2 ring-primary-200' : 'border-slate-200 hover:border-primary-300'}`}
+                              >
+                                <img
+                                  src={photo}
+                                  alt={`${viewModal.listing.title} - Thumbnail ${index + 1}`}
+                                  className="h-full w-full object-cover"
+                                />
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      <div className="aspect-video rounded-2xl border border-slate-200 bg-slate-50 flex items-center justify-center text-slate-400">
+                        No photos available
                       </div>
-                    ))}
+                    )}
                   </div>
-                </div>
-              )}
 
-              {/* Price and Type */}
-              <div className="grid grid-cols-2 gap-4 mb-6">
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <p className="text-sm text-gray-600 mb-1">Price</p>
-                  <p className="text-2xl font-bold text-primary-600">
-                    Rs. {viewModal.listing.price.toLocaleString()}
-                  </p>
-                </div>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <p className="text-sm text-gray-600 mb-1">Type</p>
-                  <p className="text-xl font-semibold text-gray-900">
-                    {viewModal.listing.rentOrSale}
-                  </p>
-                </div>
-              </div>
+                  {/* Details */}
+                  <div className="space-y-4">
+                    <div className="rounded-2xl border border-primary-100/80 bg-gradient-to-br from-primary-50 to-white p-5 shadow-sm">
+                      <div className="flex flex-wrap items-start justify-between gap-4">
+                        <div>
+                          <p className="text-[10px] uppercase tracking-[0.2em] text-slate-500">Location</p>
+                          <div className="mt-2 inline-flex items-center gap-2 text-sm text-slate-700">
+                            <svg className="h-4 w-4 text-primary-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M12 21s-6-5.33-6-10a6 6 0 1 1 12 0c0 4.67-6 10-6 10z" />
+                              <circle cx="12" cy="11" r="2" />
+                            </svg>
+                            {viewModal.listing.city}, {viewModal.listing.district}
+                          </div>
+                          <p className="text-xs text-slate-500 mt-1">{viewModal.listing.address}</p>
+                        </div>
 
-              {/* Property Details */}
-              <div className="mb-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">Property Details</h3>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  <div className="bg-gray-50 p-3 rounded-lg">
-                    <p className="text-sm text-gray-600">Bedrooms</p>
-                    <p className="text-lg font-semibold text-gray-900">{viewModal.listing.bedrooms}</p>
-                  </div>
-                  <div className="bg-gray-50 p-3 rounded-lg">
-                    <p className="text-sm text-gray-600">Bathrooms</p>
-                    <p className="text-lg font-semibold text-gray-900">{viewModal.listing.bathrooms}</p>
-                  </div>
-                  <div className="bg-gray-50 p-3 rounded-lg">
-                    <p className="text-sm text-gray-600">Land Size</p>
-                    <p className="text-lg font-semibold text-gray-900">{viewModal.listing.landSize} sq ft</p>
-                  </div>
-                  <div className="bg-gray-50 p-3 rounded-lg">
-                    <p className="text-sm text-gray-600">Status</p>
-                    <div className="mt-1">{getStatusBadge(viewModal.listing.status)}</div>
-                  </div>
-                  <div className="bg-gray-50 p-3 rounded-lg">
-                    <p className="text-sm text-gray-600">Posted</p>
-                    <p className="text-sm font-medium text-gray-900">
-                      {new Date(viewModal.listing.createdAt).toLocaleDateString()}
-                    </p>
+                        <div className="text-right">
+                          <p className="text-[10px] uppercase tracking-[0.2em] text-slate-500">Price</p>
+                          <p className="text-2xl font-bold text-primary-700">Rs. {viewModal.listing.price.toLocaleString()}</p>
+                          <p className="text-xs text-slate-500 mt-1">Posted {new Date(viewModal.listing.createdAt).toLocaleDateString()}</p>
+                        </div>
+                      </div>
+
+                      <div className="mt-4 flex flex-wrap items-center gap-2">
+                        {getStatusBadge(viewModal.listing.status)}
+                        <span className="inline-flex items-center rounded-full border border-slate-200 bg-white px-2.5 py-1 text-xs font-semibold text-slate-700">
+                          {viewModal.listing.rentOrSale}
+                        </span>
+                        <span className="inline-flex items-center rounded-full border border-slate-200 bg-white px-2.5 py-1 text-xs font-semibold text-slate-700">
+                          {viewModal.listing.propertyType}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="rounded-2xl border border-primary-100/80 bg-gradient-to-br from-primary-50 to-white p-5 shadow-sm">
+                      <div className="flex items-center justify-between">
+                        <p className="text-[10px] uppercase tracking-[0.2em] text-slate-500">Highlights</p>
+                        <div className="h-2 w-2 rounded-full bg-primary-500" />
+                      </div>
+                      <div className="mt-4 grid grid-cols-2 gap-3">
+                        <div className="rounded-xl border border-slate-200 bg-white p-3">
+                          <p className="text-xs text-slate-500">Bedrooms</p>
+                          <p className="text-lg font-semibold text-slate-900">{viewModal.listing.bedrooms}</p>
+                        </div>
+                        <div className="rounded-xl border border-slate-200 bg-white p-3">
+                          <p className="text-xs text-slate-500">Bathrooms</p>
+                          <p className="text-lg font-semibold text-slate-900">{viewModal.listing.bathrooms}</p>
+                        </div>
+                        <div className="rounded-xl border border-slate-200 bg-white p-3">
+                          <p className="text-xs text-slate-500">Size</p>
+                          <p className="text-lg font-semibold text-slate-900">{viewModal.listing.size || 'N/A'}</p>
+                        </div>
+                        <div className="rounded-xl border border-slate-200 bg-white p-3">
+                          <p className="text-xs text-slate-500">Contact</p>
+                          <p className="text-sm font-medium text-slate-900">{viewModal.listing.contactPhone || 'N/A'}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+                      <p className="text-[10px] uppercase tracking-[0.2em] text-slate-500">WhatsApp</p>
+                      <p className="mt-1 text-sm text-slate-700">{viewModal.listing.contactWhatsapp || 'N/A'}</p>
+                    </div>
+
+                    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                      <p className="text-[10px] uppercase tracking-[0.2em] text-slate-500">Description</p>
+                      <p className="mt-2 text-sm text-slate-700 whitespace-pre-line">{viewModal.listing.description}</p>
+                    </div>
+
+                    <div className="flex flex-wrap justify-end gap-3 pt-4 border-t border-slate-200">
+                      <button
+                        onClick={closeViewModal}
+                        className="px-4 py-2 rounded-full border border-slate-300 text-slate-700 hover:bg-slate-50 transition"
+                      >
+                        Close
+                      </button>
+                      <Link
+                        to={`/seller/listings/${viewModal.listing.id}/edit`}
+                        className="px-4 py-2 rounded-full bg-primary-600 text-white hover:bg-primary-700 shadow-sm transition"
+                        onClick={closeViewModal}
+                      >
+                        Edit Listing
+                      </Link>
+                    </div>
                   </div>
                 </div>
-              </div>
-
-              {/* Location */}
-              <div className="mb-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">Location</h3>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <p className="text-gray-900">
-                    {viewModal.listing.address}
-                  </p>
-                  <p className="text-gray-600 mt-1">
-                    {viewModal.listing.city}, {viewModal.listing.district}
-                  </p>
-                </div>
-              </div>
-
-              {/* Description */}
-              <div className="mb-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">Description</h3>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <p className="text-gray-700 whitespace-pre-line">{viewModal.listing.description}</p>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200">
-                <button
-                  onClick={closeViewModal}
-                  className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
-                >
-                  Close
-                </button>
-                <Link
-                  to={`/seller/listings/${viewModal.listing.id}/edit`}
-                  className="px-4 py-2 bg-primary-500 text-white rounded-md hover:bg-primary-600"
-                  onClick={closeViewModal}
-                >
-                  Edit Listing
-                </Link>
               </div>
             </div>
           </div>
