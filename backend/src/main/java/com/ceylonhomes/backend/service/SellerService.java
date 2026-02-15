@@ -39,6 +39,7 @@ public class SellerService {
     private final InquiryRepository inquiryRepository;
     private final UserRepository userRepository;
     private final FileStorageService fileStorageService;
+    private final EmailService emailService;
 
     private static final String UPLOAD_DIR = "uploads/listings/";
 
@@ -133,6 +134,8 @@ public class SellerService {
             saveListingPhotos(savedListing, photos);
         }
 
+        emailService.sendNewListingNotification(savedListing);
+
         return convertToDTO(savedListing);
     }
 
@@ -170,6 +173,8 @@ public class SellerService {
         }
 
         Listing updatedListing = listingRepository.save(listing);
+
+        emailService.sendListingUpdatedNotification(updatedListing);
 
         // Add new photos if provided
         if (newPhotos != null && !newPhotos.isEmpty()) {
