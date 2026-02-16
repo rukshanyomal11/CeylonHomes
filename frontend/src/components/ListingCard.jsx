@@ -11,7 +11,7 @@ export const ListingCard = ({ listing }) => {
   };
 
   return (
-    <div className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer">
+    <div className="group relative overflow-hidden rounded-3xl border border-primary-100 bg-white/95 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer">
       <div className="relative h-52">
         <img
           src={firstPhoto}
@@ -21,9 +21,9 @@ export const ListingCard = ({ listing }) => {
             e.target.src = 'https://via.placeholder.com/400x300?text=No+Image';
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/55 via-transparent to-transparent" />
         <div className="absolute top-3 left-3 flex items-center gap-2">
-          <span className="inline-flex items-center rounded-full bg-white/95 px-3 py-1 text-[11px] font-semibold text-primary-700 shadow-sm">
+          <span className="inline-flex items-center rounded-full border border-white/40 bg-white/95 px-3 py-1 text-[11px] font-semibold text-primary-700 shadow-sm">
             {listing.rentOrSale}
           </span>
         </div>
@@ -32,7 +32,7 @@ export const ListingCard = ({ listing }) => {
             {listing.status}
           </span>
         </div>
-        <div className="absolute bottom-3 left-3 rounded-full bg-white/95 px-3 py-1 text-xs font-semibold text-slate-800 shadow-sm">
+        <div className="absolute bottom-3 left-3 rounded-full border border-white/40 bg-white/95 px-3 py-1 text-xs font-semibold text-slate-800 shadow-sm">
           {listing.propertyType}
         </div>
       </div>
@@ -55,10 +55,13 @@ export const ListingCard = ({ listing }) => {
         </p>
 
         <div className="flex items-center justify-between">
-          <div className="text-2xl font-bold text-primary-700">
-            LKR {listing.price?.toLocaleString()}
+          <div>
+            <p className="text-[10px] uppercase tracking-[0.2em] text-slate-400">Price</p>
+            <div className="text-2xl font-bold text-primary-700">
+              LKR {listing.price?.toLocaleString()}
+            </div>
           </div>
-          <div className="flex items-center gap-3 text-sm text-slate-600">
+          <div className="flex items-center gap-2 text-sm text-slate-600">
             {listing.bedrooms > 0 && (
               <span className="inline-flex items-center rounded-full bg-slate-50 px-2.5 py-1 text-xs font-semibold text-slate-700">
                 <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -14,6 +14,8 @@ export const Register = () => {
     role: 'SELLER'
   });
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
 
@@ -89,22 +91,27 @@ export const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 to-yellow-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl w-full bg-white rounded-3xl shadow-2xl overflow-hidden">
+    <div className="relative min-h-screen bg-gradient-to-br from-primary-50 via-amber-50 to-white overflow-hidden flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="absolute -top-24 -left-20 h-72 w-72 rounded-full bg-primary-200/40 blur-3xl" />
+      <div className="absolute -bottom-24 -right-20 h-80 w-80 rounded-full bg-amber-200/40 blur-3xl" />
+
+      <div className="relative z-10 max-w-5xl w-full rounded-[32px] border border-primary-100 bg-white/90 backdrop-blur shadow-[0_45px_120px_-70px_rgba(0,0,0,0.7)] overflow-hidden">
         <div className="grid grid-cols-1 lg:grid-cols-2">
           {/* Left Side - Form */}
-          <div className="p-8">
-            <div className="mb-6">
+          <div className="p-6 sm:p-8 lg:p-10">
+            <div className="mb-6 lg:mb-8">
               <div className="flex items-center justify-between mb-6">
                 <Link to="/" className="flex items-center">
                   <span className="text-lg font-bold text-primary-600">Ceylon</span>
                   <span className="text-lg font-bold text-gray-800">Homes</span>
                 </Link>
-                <Link to="/login" className="text-sm text-gray-600 hover:text-primary-600">
+                <Link to="/login" className="text-xs font-semibold uppercase tracking-wider text-primary-700 bg-primary-50 px-3 py-1 rounded-full">
                   Login
                 </Link>
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">Sign Up</h2>
+              <p className="text-xs uppercase tracking-[0.3em] text-primary-600 font-semibold">Get started</p>
+              <h2 className="text-3xl font-serif font-semibold text-gray-900 mt-2">Create your account</h2>
+              <p className="text-sm text-slate-600 mt-2">List properties and connect with serious buyers.</p>
             </div>
 
             <form className="space-y-4" onSubmit={handleSubmit}>
@@ -119,7 +126,7 @@ export const Register = () => {
                   required
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-gray-50 text-sm"
+                  className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-200 focus:border-primary-400 bg-white text-sm shadow-sm"
                   placeholder="Enter your full name"
                 />
               </div>
@@ -135,7 +142,7 @@ export const Register = () => {
                   required
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-gray-50 text-sm"
+                  className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-200 focus:border-primary-400 bg-white text-sm shadow-sm"
                   placeholder="Enter your email address"
                 />
               </div>
@@ -151,80 +158,128 @@ export const Register = () => {
                   required
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-gray-50 text-sm"
+                  className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-200 focus:border-primary-400 bg-white text-sm shadow-sm"
                   placeholder="0771234567 or +94771234567"
                 />
-                <p className="text-xs text-gray-500 mt-1">Enter 10 digits starting with 0 or with country code +94</p>
+                <p className="text-xs text-slate-500 mt-1">Enter 10 digits starting with 0 or with country code +94</p>
               </div>
 
               <div>
                 <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
                   Password
                 </label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-gray-50 text-sm"
-                  placeholder="••••••••"
-                />
+                <div className="relative">
+                  <input
+                    id="password"
+                    name="password"
+                    type={showPassword ? 'text' : 'password'}
+                    required
+                    value={formData.password}
+                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                    className="w-full px-4 py-3 pr-12 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-200 focus:border-primary-400 bg-white text-sm shadow-sm"
+                    placeholder="********"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700"
+                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  >
+                    {showPassword ? (
+                      <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M17.94 17.94A10.9 10.9 0 0 1 12 20c-5 0-9.27-3.11-11-7 1.21-2.72 3.41-4.89 6.06-6.06M9.9 4.24A10.94 10.94 0 0 1 12 4c5 0 9.27 3.11 11 7a11.07 11.07 0 0 1-2.64 3.88" />
+                        <path d="M1 1l22 22" />
+                        <path d="M10.7 10.7a2.5 2.5 0 0 0 3.54 3.54" />
+                        <path d="M9.5 9.5a2.5 2.5 0 0 1 3.54 3.54" />
+                      </svg>
+                    ) : (
+                      <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" />
+                        <circle cx="12" cy="12" r="3" />
+                      </svg>
+                    )}
+                  </button>
+                </div>
               </div>
 
               <div>
                 <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
                   Confirm Password
                 </label>
-                <input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  required
-                  value={formData.confirmPassword}
-                  onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-gray-50 text-sm"
-                  placeholder="••••••••"
-                />
+                <div className="relative">
+                  <input
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    required
+                    value={formData.confirmPassword}
+                    onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                    className="w-full px-4 py-3 pr-12 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-200 focus:border-primary-400 bg-white text-sm shadow-sm"
+                    placeholder="********"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword((prev) => !prev)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700"
+                    aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
+                  >
+                    {showConfirmPassword ? (
+                      <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M17.94 17.94A10.9 10.9 0 0 1 12 20c-5 0-9.27-3.11-11-7 1.21-2.72 3.41-4.89 6.06-6.06M9.9 4.24A10.94 10.94 0 0 1 12 4c5 0 9.27 3.11 11 7a11.07 11.07 0 0 1-2.64 3.88" />
+                        <path d="M1 1l22 22" />
+                        <path d="M10.7 10.7a2.5 2.5 0 0 0 3.54 3.54" />
+                        <path d="M9.5 9.5a2.5 2.5 0 0 1 3.54 3.54" />
+                      </svg>
+                    ) : (
+                      <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z" />
+                        <circle cx="12" cy="12" r="3" />
+                      </svg>
+                    )}
+                  </button>
+                </div>
               </div>
 
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-2.5 px-4 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50 transition-colors text-sm"
+                className="w-full py-3.5 px-4 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:ring-offset-2 disabled:opacity-50 transition-colors text-sm shadow-sm"
               >
                 {loading ? 'Creating account...' : 'Sign Up'}
               </button>
-
-              <div className="text-center mt-3">
-                <span className="text-xs text-gray-600">
-                  Or With
-                </span>
-              </div>
+              <p className="text-xs text-slate-500 text-center">
+                Already have an account?{' '}
+                <Link to="/login" className="font-semibold text-primary-700 hover:text-primary-800">
+                  Login
+                </Link>
+              </p>
             </form>
           </div>
 
           {/* Right Side - Illustration */}
-          <div className="hidden lg:flex bg-gradient-to-br from-primary-500 to-primary-700 p-12 items-center justify-center relative overflow-hidden">
-            <div className="relative z-10 text-center">
-              <div className="mb-8">
-                <div className="w-80 h-80 mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden">
-                  <img 
-                    src="/9778741.jpg" 
-                    alt="CeylonHomes Registration" 
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+          <div className="hidden lg:block relative overflow-hidden">
+            <img
+              src="/9778741.jpg"
+              alt="CeylonHomes Registration"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-br from-primary-700/80 to-amber-500/60"></div>
+            <div className="relative z-10 flex h-full flex-col items-center justify-center p-10 text-center text-white">
+              <div className="rounded-3xl border border-white/20 bg-white/10 p-4 backdrop-blur">
+                <img
+                  src="/9778741.jpg"
+                  alt="CeylonHomes Registration"
+                  className="w-72 h-72 object-cover rounded-2xl shadow-xl"
+                />
               </div>
-              <p className="text-white text-lg font-medium">Find your perfect home in Sri Lanka</p>
-              <p className="text-yellow-100 mt-2">Join thousands of property seekers and sellers</p>
+              <h3 className="mt-6 text-2xl font-semibold">Find your perfect home in Sri Lanka</h3>
+              <p className="text-primary-100 mt-2">Join thousands of property seekers and sellers</p>
+              <div className="mt-6 flex flex-wrap justify-center gap-2 text-xs font-semibold">
+                <span className="rounded-full bg-white/15 px-3 py-1">Seller profiles</span>
+                <span className="rounded-full bg-white/15 px-3 py-1">Admin approved</span>
+                <span className="rounded-full bg-white/15 px-3 py-1">Secure access</span>
+              </div>
             </div>
-            
-            {/* Decorative circles */}
-            <div className="absolute top-10 right-10 w-20 h-20 bg-white bg-opacity-10 rounded-full"></div>
-            <div className="absolute bottom-10 left-10 w-32 h-32 bg-white bg-opacity-10 rounded-full"></div>
-            <div className="absolute top-1/2 right-20 w-16 h-16 bg-yellow-300 bg-opacity-40 rounded-full"></div>
           </div>
         </div>
       </div>

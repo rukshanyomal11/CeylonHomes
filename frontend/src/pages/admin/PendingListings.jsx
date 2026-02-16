@@ -218,13 +218,13 @@ export const PendingListings = () => {
 
       {/* View Details Modal */}
       {selectedListing && !actionType && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-md">
-          <div className="relative w-full max-w-6xl overflow-hidden rounded-[32px] border border-primary-100/60 bg-white/95 shadow-[0_50px_160px_-80px_rgba(0,0,0,0.75)]">
+        <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-4 sm:p-6 bg-slate-900/70 backdrop-blur-md overflow-y-auto">
+          <div className="relative w-full max-w-6xl max-h-[90vh] overflow-hidden rounded-[32px] border border-primary-100/60 bg-white/95 shadow-[0_50px_160px_-80px_rgba(0,0,0,0.75)] flex flex-col">
             <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_left,rgba(234,179,8,0.18),transparent_55%)]" />
             <div className="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-primary-300/20 blur-3xl" />
             <div className="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-amber-200/20 blur-3xl" />
 
-            <div className="relative">
+            <div className="relative flex flex-col flex-1 min-h-0">
               <div className="relative overflow-hidden border-b border-primary-200/40 bg-gradient-to-r from-primary-900 via-primary-800 to-primary-600 px-6 py-5">
                 <div className="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.35),transparent_55%)]" />
                 <div className="relative flex items-center justify-between gap-4">
@@ -245,11 +245,11 @@ export const PendingListings = () => {
                 </div>
               </div>
 
-              <div className="max-h-[80vh] overflow-y-auto p-6 lg:p-8">
+              <div className="flex-1 overflow-y-auto min-h-0 p-6 lg:p-8">
                 <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-6">
                   <div className="space-y-4">
                     {selectedListing.photoUrls && selectedListing.photoUrls.length > 0 ? (
-                      <div className="grid grid-cols-2 gap-3">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {selectedListing.photoUrls.map((url, index) => (
                           <img
                             key={index}
@@ -290,7 +290,7 @@ export const PendingListings = () => {
 
                     <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
                       <p className="text-[10px] uppercase tracking-[0.2em] text-slate-500">Property</p>
-                      <div className="mt-2 grid grid-cols-2 gap-2 text-sm text-slate-700">
+                      <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-slate-700">
                         <div>Bedrooms: <span className="font-semibold">{selectedListing.bedrooms}</span></div>
                         <div>Bathrooms: <span className="font-semibold">{selectedListing.bathrooms}</span></div>
                         {selectedListing.size && (

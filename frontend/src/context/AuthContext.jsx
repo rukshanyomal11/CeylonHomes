@@ -26,6 +26,11 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('token', authResponse.token);
   };
 
+  const updateUser = (updatedUser) => {
+    setUser(updatedUser);
+    localStorage.setItem('user', JSON.stringify(updatedUser));
+  };
+
   const logout = () => {
     setUser(null);
     setToken(null);
@@ -40,7 +45,7 @@ export const AuthProvider = ({ children }) => {
   const hasAnyRole = (...roles) => roles.includes(user?.role);
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout, isAuthenticated, hasRole, hasAnyRole, loading }}>
+    <AuthContext.Provider value={{ user, token, login, updateUser, logout, isAuthenticated, hasRole, hasAnyRole, loading }}>
       {children}
     </AuthContext.Provider>
   );

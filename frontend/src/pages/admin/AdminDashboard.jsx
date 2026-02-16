@@ -27,7 +27,7 @@ export const AdminDashboard = () => {
         {/* Mobile Sidebar Toggle */}
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="lg:hidden fixed top-20 left-4 z-50 bg-primary-600 text-white p-3 rounded-full shadow-lg hover:bg-primary-700"
+          className="lg:hidden fixed bottom-6 right-4 z-50 bg-primary-600 text-white p-3 rounded-full shadow-lg hover:bg-primary-700"
           aria-label="Toggle admin navigation"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -45,7 +45,7 @@ export const AdminDashboard = () => {
 
         {/* Sidebar */}
         <div className={`
-          fixed lg:static inset-y-0 left-0 z-40 w-72 bg-gradient-to-b from-primary-500 via-primary-800 to-primary-900 text-primary-50 flex flex-col transform transition-transform duration-300 ease-in-out shadow-2xl
+          fixed lg:static inset-y-0 left-0 z-40 w-64 sm:w-72 bg-gradient-to-b from-primary-500 via-primary-800 to-primary-900 text-primary-50 flex flex-col transform transition-transform duration-300 ease-in-out shadow-2xl
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
           mt-16 lg:mt-0
         `}>

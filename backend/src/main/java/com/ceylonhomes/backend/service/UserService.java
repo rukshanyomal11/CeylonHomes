@@ -114,6 +114,47 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
+    public UserDTO getProfileByEmail(String email) {
+        User user = getUserByEmail(email);
+        return new UserDTO(
+                user.getId(),
+                user.getName(),
+                user.getEmail(),
+                user.getPhone(),
+                user.getRole()
+        );
+    }
+
+    @Transactional
+    public UserDTO updateSellerProfile(String email, SellerProfileUpdateRequest request) {
+        User user = getUserByEmail(email);
+
+        if (user.getRole() != Role.SELLER) {
+            throw new RuntimeException("Only sellers can update profile");
+        }
+
+        if (!user.getPhone().equals(request.getPhone())) {
+            userRepository.findByPhone(request.getPhone()).ifPresent(existing -> {
+                if (!existing.getId().equals(user.getId())) {
+                    throw new RuntimeException("Phone number already exists");
+                }
+            });
+        }
+
+        user.setName(request.getName());
+        user.setPhone(request.getPhone());
+
+        User savedUser = userRepository.save(user);
+
+        return new UserDTO(
+                savedUser.getId(),
+                savedUser.getName(),
+                savedUser.getEmail(),
+                savedUser.getPhone(),
+                savedUser.getRole()
+        );
+    }
+
     public User getUserById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));

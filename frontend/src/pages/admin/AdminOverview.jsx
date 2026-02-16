@@ -65,6 +65,7 @@ export const AdminOverview = () => {
             className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white/80 p-6 shadow-sm transition-all hover:shadow-lg hover:-translate-y-0.5"
           >
             <div className={`absolute -right-6 -top-6 h-20 w-20 rounded-full ${stat.accent}`}></div>
+            <div className={`absolute -right-10 -bottom-10 h-28 w-28 rounded-full ${stat.accent}`}></div>
             <div className={`inline-flex px-3 py-1 rounded-full text-xs font-semibold ${stat.color}`}>
               {stat.label}
             </div>

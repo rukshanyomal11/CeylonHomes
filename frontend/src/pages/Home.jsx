@@ -52,7 +52,7 @@ export const Home = () => {
   };
 
   return (
-    <div className="bg-slate-50">
+    <div className="bg-slate-50 overflow-x-hidden">
       <style>{`
         @keyframes fadeUp {
           0% { opacity: 0; transform: translateY(16px); }
@@ -71,24 +71,24 @@ export const Home = () => {
         <div className="absolute -top-24 -left-20 h-72 w-72 rounded-full bg-white/10 blur-3xl" style={{ animation: 'floatSlow 10s ease-in-out infinite' }} />
         <div className="absolute -bottom-32 -right-16 h-80 w-80 rounded-full bg-amber-200/20 blur-3xl" style={{ animation: 'floatSlow 12s ease-in-out infinite' }} />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6" style={{ animation: 'fadeUp 0.9s ease both' }}>
-              <p className="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-1 text-xs font-semibold uppercase tracking-[0.3em]">CeylonHomes</p>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-semibold tracking-tight">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-12 items-center">
+            <div className="space-y-5 sm:space-y-6" style={{ animation: 'fadeUp 0.9s ease both' }}>
+              <p className="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-1 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] sm:tracking-[0.3em]">CeylonHomes</p>
+              <h1 className="text-[28px] leading-tight sm:text-4xl md:text-5xl lg:text-6xl font-serif font-semibold tracking-tight">
                 Find Your Perfect Home in Sri Lanka
               </h1>
-              <p className="text-lg text-primary-100/90">
+              <p className="text-sm sm:text-base lg:text-lg text-primary-100/90">
                 Browse verified properties for rent and sale across the island. Discover your next home with confidence.
               </p>
 
               <div className="flex flex-wrap gap-2">
-                <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold">Verified listings</span>
-                <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold">Direct owner contact</span>
-                <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold">Islandwide coverage</span>
+                <span className="rounded-full bg-white/10 px-2.5 sm:px-3 py-1 text-[10px] sm:text-xs font-semibold">Verified listings</span>
+                <span className="rounded-full bg-white/10 px-2.5 sm:px-3 py-1 text-[10px] sm:text-xs font-semibold">Direct owner contact</span>
+                <span className="rounded-full bg-white/10 px-2.5 sm:px-3 py-1 text-[10px] sm:text-xs font-semibold">Islandwide coverage</span>
               </div>
 
-              <div className="rounded-2xl bg-white/95 text-slate-900 shadow-2xl border border-white/40 p-4">
+              <div className="rounded-2xl bg-white/95 text-slate-900 shadow-2xl border border-white/40 p-3 sm:p-4">
                 <div className="flex flex-col md:flex-row gap-3">
                   <div className="relative flex-1">
                     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-primary-600">
@@ -101,12 +101,12 @@ export const Home = () => {
                       placeholder="Search by city or district..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 pl-11 text-sm text-slate-700 shadow-sm focus:border-primary-400 focus:ring-2 focus:ring-primary-200 focus:outline-none"
+                      className="w-full rounded-xl border border-slate-200 bg-white px-3 sm:px-4 py-2.5 sm:py-3 pl-10 sm:pl-11 text-sm text-slate-700 shadow-sm focus:border-primary-400 focus:ring-2 focus:ring-primary-200 focus:outline-none"
                     />
                   </div>
                   <Link
                     to={`/listings${searchTerm ? `?city=${searchTerm}` : ''}`}
-                    className="rounded-xl bg-primary-600 hover:bg-primary-700 text-white px-8 py-3 font-semibold text-center shadow-sm transition"
+                    className="w-full md:w-auto rounded-xl bg-primary-600 hover:bg-primary-700 text-white px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base font-semibold text-center shadow-sm transition"
                   >
                     Search
                   </Link>
@@ -132,22 +132,37 @@ export const Home = () => {
       </section>
 
       {/* Latest Listings */}
-      <section className="relative py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
-            <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-primary-600">Latest Listings</p>
-              <h2 className="text-3xl font-serif font-semibold text-slate-900">Fresh on CeylonHomes</h2>
-              <p className="text-slate-600 mt-2">Explore the newest properties approved by our admin team.</p>
+      <section className="relative py-16 overflow-hidden bg-gradient-to-b from-white via-primary-50/30 to-white">
+        <div className="absolute -top-20 -right-10 h-64 w-64 rounded-full bg-primary-300/20 blur-3xl" />
+        <div className="absolute -bottom-24 -left-10 h-72 w-72 rounded-full bg-amber-200/25 blur-3xl" />
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="rounded-3xl border border-primary-100 bg-white/90 backdrop-blur p-6 shadow-sm mb-10">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.3em] text-primary-600">Latest Listings</p>
+                <h2 className="text-3xl font-serif font-semibold text-slate-900">Fresh on CeylonHomes</h2>
+                <p className="text-slate-600 mt-2">
+                  Explore the newest properties approved by our admin team.
+                </p>
+                <div className="mt-4 flex flex-wrap gap-2 text-xs font-semibold">
+                  <span className="rounded-full bg-primary-50 text-primary-700 px-3 py-1">Admin approved</span>
+                  <span className="rounded-full bg-amber-50 text-amber-700 px-3 py-1">Verified listings</span>
+                  <span className="rounded-full bg-slate-100 text-slate-600 px-3 py-1">Updated regularly</span>
+                </div>
+              </div>
+              <Link
+                to="/listings"
+                className="inline-flex items-center justify-center rounded-full bg-primary-600 px-5 py-2.5 text-xs font-semibold text-white shadow-sm hover:bg-primary-700"
+              >
+                View all listings
+              </Link>
             </div>
-            <Link to="/listings" className="text-primary-700 hover:text-primary-800 font-semibold">
-              View all listings &rarr;
-            </Link>
           </div>
 
           {loading ? (
             <div className="flex justify-center py-12">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-2 border-primary-200 border-t-primary-600"></div>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -169,7 +184,9 @@ export const Home = () => {
       </section>
 
       {/* Features Section */}
-      <section className="relative py-14 bg-gradient-to-b from-white via-primary-50/40 to-white">
+      <section className="relative py-14 overflow-hidden bg-gradient-to-b from-white via-primary-50/40 to-white">
+        <div className="absolute -top-16 -left-12 h-48 w-48 rounded-full bg-primary-200/20 blur-3xl" />
+        <div className="absolute -bottom-20 -right-10 h-56 w-56 rounded-full bg-amber-200/25 blur-3xl" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
             <p className="text-xs uppercase tracking-[0.3em] text-primary-600">Why CeylonHomes</p>
@@ -177,35 +194,41 @@ export const Home = () => {
             <p className="text-slate-600 mt-3">A trusted marketplace designed for buyers, renters, and sellers.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="group rounded-2xl border border-primary-100 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
-              <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-50 text-primary-600">
+            <div className="group relative overflow-hidden rounded-3xl border border-primary-100/80 bg-white/90 p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+              <div className="absolute -right-10 -top-10 h-24 w-24 rounded-full bg-primary-100/60 blur-2xl opacity-0 transition group-hover:opacity-100" />
+              <div className="absolute -bottom-8 -left-8 h-20 w-20 rounded-full bg-amber-100/60 blur-2xl opacity-0 transition group-hover:opacity-100" />
+              <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-50 text-primary-600 ring-1 ring-primary-100 shadow-sm">
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
               <h3 className="text-xl font-semibold text-slate-900 mb-2">Verified Listings</h3>
               <p className="text-slate-600">All listings are reviewed and approved by our admin team.</p>
-              <div className="mt-4 h-1 w-12 rounded-full bg-primary-500" />
+              <div className="mt-4 h-1 w-12 rounded-full bg-gradient-to-r from-primary-500 to-amber-400" />
             </div>
-            <div className="group rounded-2xl border border-primary-100 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
-              <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-50 text-primary-600">
+            <div className="group relative overflow-hidden rounded-3xl border border-primary-100/80 bg-white/90 p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+              <div className="absolute -right-10 -top-10 h-24 w-24 rounded-full bg-primary-100/60 blur-2xl opacity-0 transition group-hover:opacity-100" />
+              <div className="absolute -bottom-8 -left-8 h-20 w-20 rounded-full bg-amber-100/60 blur-2xl opacity-0 transition group-hover:opacity-100" />
+              <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-50 text-primary-600 ring-1 ring-primary-100 shadow-sm">
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
               </div>
               <h3 className="text-xl font-semibold text-slate-900 mb-2">Easy Search</h3>
               <p className="text-slate-600">Find properties fast with filters and smart search tools.</p>
-              <div className="mt-4 h-1 w-12 rounded-full bg-primary-500" />
+              <div className="mt-4 h-1 w-12 rounded-full bg-gradient-to-r from-primary-500 to-amber-400" />
             </div>
-            <div className="group rounded-2xl border border-primary-100 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
-              <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-50 text-primary-600">
+            <div className="group relative overflow-hidden rounded-3xl border border-primary-100/80 bg-white/90 p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+              <div className="absolute -right-10 -top-10 h-24 w-24 rounded-full bg-primary-100/60 blur-2xl opacity-0 transition group-hover:opacity-100" />
+              <div className="absolute -bottom-8 -left-8 h-20 w-20 rounded-full bg-amber-100/60 blur-2xl opacity-0 transition group-hover:opacity-100" />
+              <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-50 text-primary-600 ring-1 ring-primary-100 shadow-sm">
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
               </div>
               <h3 className="text-xl font-semibold text-slate-900 mb-2">Direct Contact</h3>
               <p className="text-slate-600">Connect directly with owners and sellers to move faster.</p>
-              <div className="mt-4 h-1 w-12 rounded-full bg-primary-500" />
+              <div className="mt-4 h-1 w-12 rounded-full bg-gradient-to-r from-primary-500 to-amber-400" />
             </div>
           </div>
         </div>
@@ -282,13 +305,23 @@ export const Home = () => {
 
       {/* View Listing Modal  */}
       {viewModal.show && viewModal.listing && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-md">
-          <div className="relative w-full max-w-6xl overflow-hidden rounded-[32px] border border-primary-100/60 bg-white/95 shadow-[0_50px_160px_-80px_rgba(0,0,0,0.75)]">
+        <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-4 sm:p-6 bg-slate-900/70 backdrop-blur-md overflow-y-auto">
+          <div className="relative w-full max-w-6xl max-h-[90vh] overflow-y-auto rounded-[32px] border border-primary-100/60 bg-white/95 shadow-[0_50px_160px_-80px_rgba(0,0,0,0.75)] flex flex-col">
             <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_left,rgba(234,179,8,0.18),transparent_55%)]" />
             <div className="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-primary-300/20 blur-3xl" />
             <div className="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-amber-200/20 blur-3xl" />
+            <button
+              onClick={closeViewModal}
+              className="absolute top-4 right-4 z-20 inline-flex items-center justify-center h-10 w-10 rounded-full bg-white/15 text-white hover:bg-white/25 transition"
+              aria-label="Close modal"
+            >
+              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 6 6 18" />
+                <path d="m6 6 12 12" />
+              </svg>
+            </button>
 
-            <div className="relative">
+            <div className="relative flex flex-col">
               {/* Modal Header */}
               <div className="relative overflow-hidden border-b border-primary-200/40 bg-gradient-to-r from-primary-900 via-primary-800 to-primary-600 px-6 py-5">
                 <div className="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.35),transparent_55%)]" />
@@ -305,21 +338,11 @@ export const Home = () => {
                     </div>
                   </div>
 
-                  <button
-                    onClick={closeViewModal}
-                    className="inline-flex items-center justify-center h-10 w-10 rounded-full bg-white/10 text-white hover:bg-white/20 transition"
-                    aria-label="Close modal"
-                  >
-                    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M18 6 6 18" />
-                      <path d="m6 6 12 12" />
-                    </svg>
-                  </button>
                 </div>
               </div>
 
               {/* Modal Body */}
-              <div className="max-h-[80vh] overflow-y-auto p-6 lg:p-8">
+              <div className="p-6 lg:p-8">
                 <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-6">
                   {/* Gallery */}
                   <div className="space-y-4">
@@ -363,7 +386,7 @@ export const Home = () => {
                         </div>
 
                         {viewModal.listing.photoUrls.length > 1 && (
-                          <div className="grid grid-cols-4 gap-3">
+                          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                             {viewModal.listing.photoUrls.map((photo, index) => (
                               <button
                                 key={index}
@@ -421,7 +444,7 @@ export const Home = () => {
                         <p className="text-[10px] uppercase tracking-[0.2em] text-slate-500">Highlights</p>
                         <div className="h-2 w-2 rounded-full bg-primary-500" />
                       </div>
-                      <div className="mt-4 grid grid-cols-2 gap-3">
+                      <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
                           <p className="text-xs text-slate-500">Bedrooms</p>
                           <p className="text-lg font-semibold text-slate-900">{viewModal.listing.bedrooms || 0}</p>

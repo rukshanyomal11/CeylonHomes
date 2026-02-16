@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { sellerAPI } from '../../api/sellerAPI';
 import { toast } from 'react-hot-toast';
 
@@ -14,7 +14,6 @@ export const MyListings = () => {
   const [activePhoto, setActivePhoto] = useState(0);
   const [page, setPage] = useState(0);
   const pageSize = 8;
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetchListings();
@@ -148,34 +147,45 @@ export const MyListings = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-gray-500">Loading...</div>
+        <div className="flex items-center gap-3 text-slate-500">
+          <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary-200 border-t-primary-600" />
+          Loading listings...
+        </div>
       </div>
     );
   }
 
   return (
-    <div>
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold text-gray-800">My Listings</h1>
-        <Link
-          to="/seller/listings/new"
-          className="bg-primary-500 hover:bg-primary-600 text-white px-6 py-2 rounded-md font-medium"
-        >
-          + Create New Listing
-        </Link>
+    <div className="space-y-6">
+      <div className="relative overflow-hidden rounded-3xl border border-primary-100 bg-gradient-to-r from-primary-900 via-primary-800 to-primary-600 px-6 py-6 text-white shadow-lg">
+        <div className="absolute inset-0 opacity-50 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.35),transparent_55%)]" />
+        <div className="relative flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="text-[10px] uppercase tracking-[0.3em] text-primary-100">Seller Listings</p>
+            <h1 className="text-3xl font-bold">My Listings</h1>
+            <p className="mt-2 text-sm text-primary-50">
+              Manage all your listings, track status, and take action quickly.
+            </p>
+          </div>
+          <Link
+            to="/seller/listings/new"
+            className="rounded-full bg-white px-5 py-2 text-xs font-semibold text-primary-700 shadow-sm hover:bg-primary-50"
+          >
+            + Create New Listing
+          </Link>
+        </div>
       </div>
 
-      {/* Filters */}
-      <div className="bg-white rounded-lg shadow p-4 mb-6">
+      <div className="rounded-2xl border border-primary-100 bg-white shadow-sm p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-[10px] uppercase tracking-[0.2em] text-slate-500 mb-2">
               Filter by Status
             </label>
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-700 shadow-sm focus:border-primary-400 focus:ring-2 focus:ring-primary-200 focus:outline-none"
             >
               <option value="">All Statuses</option>
               <option value="PENDING">Pending</option>
@@ -187,7 +197,7 @@ export const MyListings = () => {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-[10px] uppercase tracking-[0.2em] text-slate-500 mb-2">
               Search by Title
             </label>
             <input
@@ -195,91 +205,91 @@ export const MyListings = () => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search listings..."
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-700 shadow-sm focus:border-primary-400 focus:ring-2 focus:ring-primary-200 focus:outline-none"
             />
           </div>
         </div>
       </div>
 
-      {/* Listings Table */}
-      <div className="bg-white rounded-lg shadow overflow-hidden">
+      <div className="rounded-2xl border border-primary-100 bg-white shadow-sm overflow-hidden">
         {filteredListings.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-gray-500">No listings found</p>
+            <p className="text-slate-600">No listings found</p>
+            <p className="text-xs text-slate-400 mt-1">Try adjusting your filters or create a new listing.</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200">
+            <table className="w-full min-w-[900px]">
+              <thead className="bg-primary-50/80 border-b border-primary-100">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-[10px] font-semibold text-slate-600 uppercase tracking-[0.2em]">
                     Title
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-[10px] font-semibold text-slate-600 uppercase tracking-[0.2em]">
                     Price
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-[10px] font-semibold text-slate-600 uppercase tracking-[0.2em]">
                     Type
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-[10px] font-semibold text-slate-600 uppercase tracking-[0.2em]">
                     Location
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-[10px] font-semibold text-slate-600 uppercase tracking-[0.2em]">
                     Status
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-[10px] font-semibold text-slate-600 uppercase tracking-[0.2em]">
                     Created
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-[10px] font-semibold text-slate-600 uppercase tracking-[0.2em]">
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="divide-y divide-slate-100">
                 {filteredListings
                   .slice(page * pageSize, page * pageSize + pageSize)
                   .map((listing) => (
-                  <tr key={listing.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">{listing.title}</div>
+                  <tr key={listing.id} className="hover:bg-primary-50/50">
+                    <td className="px-6 py-4">
+                      <div className="text-sm font-semibold text-slate-900">{listing.title}</div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">Rs. {listing.price.toLocaleString()}</div>
+                    <td className="px-6 py-4">
+                      <div className="text-sm text-slate-900">Rs. {listing.price.toLocaleString()}</div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{listing.rentOrSale}</div>
+                    <td className="px-6 py-4">
+                      <div className="text-sm text-slate-700">{listing.rentOrSale}</div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">
+                    <td className="px-6 py-4">
+                      <div className="text-sm text-slate-700">
                         {listing.city}, {listing.district}
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-6 py-4">
                       {getStatusBadge(listing.status)}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-500">
+                    <td className="px-6 py-4">
+                      <div className="text-sm text-slate-500">
                         {new Date(listing.createdAt).toLocaleDateString()}
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <div className="flex space-x-2">
+                    <td className="px-6 py-4">
+                      <div className="flex flex-wrap gap-2">
                         <button
                           onClick={() => openViewModal(listing)}
-                          className="text-blue-600 hover:text-blue-900"
+                          className="px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 hover:bg-blue-100"
                         >
                           View
                         </button>
                         <Link
                           to={`/seller/listings/${listing.id}/edit`}
-                          className="text-primary-600 hover:text-primary-900"
+                          className="px-3 py-1 rounded-full text-xs font-semibold bg-primary-50 text-primary-700 hover:bg-primary-100"
                         >
                           Edit
                         </Link>
                         {listing.status === 'APPROVED' && listing.rentOrSale === 'SALE' && (
                           <button
                             onClick={() => openConfirmDialog('sold', listing.id)}
-                            className="text-green-600 hover:text-green-900"
+                            className="px-3 py-1 rounded-full text-xs font-semibold bg-green-50 text-green-700 hover:bg-green-100"
                           >
                             Sold
                           </button>
@@ -287,20 +297,20 @@ export const MyListings = () => {
                         {listing.status === 'APPROVED' && listing.rentOrSale === 'RENT' && (
                           <button
                             onClick={() => openConfirmDialog('rented', listing.id)}
-                            className="text-purple-600 hover:text-purple-900"
+                            className="px-3 py-1 rounded-full text-xs font-semibold bg-purple-50 text-purple-700 hover:bg-purple-100"
                           >
                             Rented
                           </button>
                         )}
                         <button
                           onClick={() => openConfirmDialog('archive', listing.id)}
-                          className="text-gray-600 hover:text-gray-900"
+                          className="px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200"
                         >
                           Archive
                         </button>
                         <button
                           onClick={() => openConfirmDialog('delete', listing.id)}
-                          className="text-red-600 hover:text-red-900"
+                          className="px-3 py-1 rounded-full text-xs font-semibold bg-red-50 text-red-700 hover:bg-red-100"
                         >
                           Delete
                         </button>
@@ -311,22 +321,22 @@ export const MyListings = () => {
               </tbody>
             </table>
 
-            <div className="flex items-center justify-between px-6 py-4 border-t border-gray-200 bg-white">
-              <p className="text-sm text-gray-600">
+            <div className="flex items-center justify-between px-6 py-4 border-t border-primary-100 bg-white">
+              <p className="text-sm text-slate-600">
                 Page {Math.min(page + 1, Math.max(Math.ceil(filteredListings.length / pageSize), 1))} of {Math.max(Math.ceil(filteredListings.length / pageSize), 1)}
               </p>
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setPage((prev) => Math.max(prev - 1, 0))}
                   disabled={page === 0}
-                  className="px-3 py-1.5 text-sm rounded-md border border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+                  className="px-3 py-1.5 text-sm rounded-full border border-slate-200 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary-50"
                 >
                   Previous
                 </button>
                 <button
                   onClick={() => setPage((prev) => prev + 1)}
                   disabled={page + 1 >= Math.ceil(filteredListings.length / pageSize)}
-                  className="px-3 py-1.5 text-sm rounded-md border border-gray-200 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+                  className="px-3 py-1.5 text-sm rounded-full border border-slate-200 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary-50"
                 >
                   Next
                 </button>
@@ -338,13 +348,13 @@ export const MyListings = () => {
 
       {/* View Modal */}
       {viewModal.show && viewModal.listing && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-md">
-          <div className="relative w-full max-w-6xl overflow-hidden rounded-[34px] border border-primary-100/60 bg-white/95 shadow-[0_50px_160px_-80px_rgba(0,0,0,0.75)]">
+        <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-4 sm:p-6 bg-slate-900/70 backdrop-blur-md overflow-y-auto">
+          <div className="relative w-full max-w-6xl max-h-[90vh] overflow-hidden rounded-[34px] border border-primary-100/60 bg-white/95 shadow-[0_50px_160px_-80px_rgba(0,0,0,0.75)] flex flex-col">
             <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_left,rgba(234,179,8,0.18),transparent_55%)]" />
             <div className="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-primary-300/20 blur-3xl" />
             <div className="absolute -bottom-24 -left-24 h-64 w-64 rounded-full bg-amber-200/20 blur-3xl" />
 
-            <div className="relative">
+            <div className="relative flex flex-col flex-1 min-h-0">
               {/* Modal Header */}
               <div className="relative overflow-hidden border-b border-primary-200/40 bg-gradient-to-r from-primary-800 via-primary-700 to-primary-500 px-6 py-5">
                 <div className="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.35),transparent_55%)]" />
@@ -368,7 +378,7 @@ export const MyListings = () => {
               </div>
 
               {/* Modal Body */}
-              <div className="max-h-[80vh] overflow-y-auto p-6 lg:p-8 space-y-8">
+              <div className="flex-1 overflow-y-auto min-h-0 p-6 lg:p-8 space-y-8">
                 <div className="grid grid-cols-1 lg:grid-cols-[1.25fr_0.75fr] gap-6">
                   {/* Gallery */}
                   <div className="space-y-4">
@@ -385,7 +395,7 @@ export const MyListings = () => {
                           </div>
                         </div>
                         {viewModal.listing.photoUrls.length > 1 && (
-                          <div className="grid grid-cols-4 gap-3">
+                          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                             {viewModal.listing.photoUrls.map((photo, index) => (
                               <button
                                 key={index}
@@ -449,7 +459,7 @@ export const MyListings = () => {
                         <p className="text-[10px] uppercase tracking-[0.2em] text-slate-500">Highlights</p>
                         <div className="h-2 w-2 rounded-full bg-primary-500" />
                       </div>
-                      <div className="mt-4 grid grid-cols-2 gap-3">
+                      <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div className="rounded-xl border border-slate-200 bg-white p-3">
                           <p className="text-xs text-slate-500">Bedrooms</p>
                           <p className="text-lg font-semibold text-slate-900">{viewModal.listing.bedrooms}</p>

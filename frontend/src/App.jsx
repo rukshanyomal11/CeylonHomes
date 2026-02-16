@@ -13,6 +13,7 @@ import { MyListings } from './pages/seller/MyListings';
 import { CreateListing } from './pages/seller/CreateListing';
 import { EditListing } from './pages/seller/EditListing';
 import { SellerInquiries } from './pages/seller/SellerInquiries';
+import { Profile } from './pages/seller/Profile';
 import { AdminDashboard } from './pages/admin/AdminDashboard';
 import { AdminOverview } from './pages/admin/AdminOverview';
 import { PendingListings } from './pages/admin/PendingListings';
@@ -54,6 +55,7 @@ function App() {
               </ProtectedRoute>
             }>
               <Route index element={<Overview />} />
+              <Route path="profile" element={<Profile />} />
               <Route path="listings" element={<MyListings />} />
               <Route path="listings/new" element={<CreateListing />} />
               <Route path="listings/:id/edit" element={<EditListing />} />

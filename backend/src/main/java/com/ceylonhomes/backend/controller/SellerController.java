@@ -3,6 +3,7 @@ package com.ceylonhomes.backend.controller;
 import com.ceylonhomes.backend.dto.*;
 import com.ceylonhomes.backend.enums.ListingStatus;
 import com.ceylonhomes.backend.service.SellerService;
+import com.ceylonhomes.backend.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,7 @@ import java.util.List;
 public class SellerController {
 
     private final SellerService sellerService;
+    private final UserService userService;
 
     @GetMapping("/listings")
     public ResponseEntity<List<ListingDTO>> getMyListings(
@@ -38,6 +40,20 @@ public class SellerController {
     public ResponseEntity<ListingSummaryDTO> getListingSummary(@AuthenticationPrincipal UserDetails userDetails) {
         ListingSummaryDTO summary = sellerService.getSellerListingSummary(userDetails.getUsername());
         return ResponseEntity.ok(summary);
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<UserDTO> getProfile(@AuthenticationPrincipal UserDetails userDetails) {
+        UserDTO user = userService.getProfileByEmail(userDetails.getUsername());
+        return ResponseEntity.ok(user);
+    }
+
+    @PutMapping("/profile")
+    public ResponseEntity<UserDTO> updateProfile(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @Valid @RequestBody SellerProfileUpdateRequest request) {
+        UserDTO user = userService.updateSellerProfile(userDetails.getUsername(), request);
+        return ResponseEntity.ok(user);
     }
 
     @GetMapping("/listings/{id}")

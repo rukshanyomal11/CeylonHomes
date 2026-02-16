@@ -124,10 +124,16 @@ export const AllListings = () => {
       </div>
 
       {loading ? (
-        <div className="text-center py-12">Loading...</div>
+        <div className="flex items-center justify-center py-12">
+          <div className="flex items-center gap-3 text-slate-500">
+            <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary-200 border-t-primary-600" />
+            Loading listings...
+          </div>
+        </div>
       ) : (
         <div className="bg-white/90 backdrop-blur rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-          <table className="w-full text-sm">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm min-w-[780px]">
             <thead className="bg-slate-50 border-b border-slate-200">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wide">#</th>
@@ -167,7 +173,8 @@ export const AllListings = () => {
                 </tr>
               ))}
             </tbody>
-          </table>
+            </table>
+          </div>
 
           <div className="flex items-center justify-between px-6 py-4 border-t border-slate-200 bg-white">
             <p className="text-sm text-slate-600">

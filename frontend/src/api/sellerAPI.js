@@ -43,6 +43,16 @@ export const sellerAPI = {
     return axiosInstance.get('/seller/listings/summary');
   },
 
+  // Get seller profile
+  getProfile: () => {
+    return axiosInstance.get('/seller/profile');
+  },
+
+  // Update seller profile
+  updateProfile: (data) => {
+    return axiosInstance.put('/seller/profile', data);
+  },
+
   // Get single listing
   getListing: (id) => {
     return axiosInstance.get(`/seller/listings/${id}`);
