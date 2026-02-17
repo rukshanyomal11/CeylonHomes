@@ -31,7 +31,7 @@ export const SellerDashboard = () => {
   return (
     <>
       <Navbar />
-      <div className="flex min-h-screen bg-gradient-to-br from-primary-50 via-yellow-50 to-white pt-16">
+      <div className="flex h-screen overflow-hidden bg-gradient-to-br from-primary-50 via-yellow-50 to-white pt-16">
         {/* Mobile Sidebar Toggle */}
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
